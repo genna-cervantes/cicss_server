@@ -9,7 +9,7 @@ import ust.com.cicss.models.DepartmentChair;
 @Repository
 public interface DepartmentChairRepository extends JpaRepository<DepartmentChair, String> {
     @Query(
-        value = "SELECT COUNT(*) > 0 FROM department_chair WHERE email =? 1",
+        value = "SELECT COUNT(*) > 0 FROM department_chair WHERE email = ?1",
         nativeQuery = true
     )
     boolean authByEmail(String email);

@@ -11,13 +11,8 @@ public class DepartmentChairService {
     @Autowired
     private DepartmentChairRepository depChairRepo;
 
-    public boolean authByEmail(String email) throws Exception{
-        try{
-            depChairRepo.authByEmail(email);
-        }catch(Exception e){
-            System.out.println(e);
-        }
-
-        return true;
+    public boolean authByEmail(String email){
+        
+        return depChairRepo.authByEmail(email);
     }
 }

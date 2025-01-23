@@ -3,6 +3,7 @@ package ust.com.cicss.controllers;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import ust.com.cicss.services.DepartmentChairService;
 
 @RestController
 @RequestMapping("/departmentchair")
+@CrossOrigin("http://localhost:5173")
 public class DepartmentChairController {
 
     @Autowired
