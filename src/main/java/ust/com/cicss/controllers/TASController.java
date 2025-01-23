@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ust.com.cicss.services.DepartmentChairService;
 
 @RestController
-@RequestMapping("/departmentchair")
+@RequestMapping("/tas")
 @CrossOrigin("http://localhost:5173")
-public class DepartmentChairController {
+public class TASController {
 
     @Autowired
     private DepartmentChairService departmentChairService;
