@@ -1,6 +1,7 @@
 package ust.com.cicss.models;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -19,6 +20,13 @@ public class TAS {
     @Column(name = "courses")
     private String[] courses;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "email")
+    private String email;
+
+    @Embedded
     @Column(name = "restriction")
     private Restrictions restrictions;
 
@@ -34,6 +42,14 @@ public class TAS {
 
     public void setCourses(String[] courses){
         this.courses = courses;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
     }
 
     public void setRestriction(Restrictions restrictions){

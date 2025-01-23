@@ -1,24 +1,29 @@
 package ust.com.cicss.models;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class Restrictions {
     @JsonProperty("M")
-    private TimeBlock[] M;
+    private ArrayList<TimeBlock> M;
     @JsonProperty("T")
-    private TimeBlock[] T;
+    private ArrayList<TimeBlock> T;
     @JsonProperty("W")
-    private TimeBlock[] W;
+    private ArrayList<TimeBlock> W;
     @JsonProperty("TH")
-    private TimeBlock[] TH;
+    private ArrayList<TimeBlock> TH;
     @JsonProperty("F")
-    private TimeBlock[] F;
+    private ArrayList<TimeBlock> F;
     @JsonProperty("S")
-    private TimeBlock[] S;
+    private ArrayList<TimeBlock> S;
 
     public Restrictions(){}
 
-    public Restrictions(TimeBlock[] M, TimeBlock[] T, TimeBlock[] W, TimeBlock[] TH, TimeBlock[] F, TimeBlock[] S){
+    public Restrictions(ArrayList<TimeBlock> M, ArrayList<TimeBlock> T, ArrayList<TimeBlock> W, ArrayList<TimeBlock> TH, ArrayList<TimeBlock> F, ArrayList<TimeBlock> S){
         this.M = M;
         this.T = T;
         this.W = W;
@@ -27,41 +32,41 @@ public class Restrictions {
         this.S = S;
     }
 
-    public void setM(TimeBlock[] M){
+    public void setM(ArrayList<TimeBlock> M){
         this.M = M;
     }
-    public void setT(TimeBlock[] T){
+    public void setT(ArrayList<TimeBlock> T){
         this.T = T;
     }
-    public void setW(TimeBlock[] W){
+    public void setW(ArrayList<TimeBlock> W){
         this.W = W;
     }
-    public void setTH(TimeBlock[] TH){
+    public void setTH(ArrayList<TimeBlock> TH){
         this.TH = TH;
     }
-    public void setF(TimeBlock[] F){
+    public void setF(ArrayList<TimeBlock> F){
         this.F = F;
     }
-    public void setS(TimeBlock[] S){
+    public void setS(ArrayList<TimeBlock> S){
         this.S = S;
     }
 
-    public TimeBlock[] getM(){
+    public ArrayList<TimeBlock> getM(){
         return this.M;
     }
-    public TimeBlock[] getT(){
+    public ArrayList<TimeBlock> getT(){
         return this.T;
     }
-    public TimeBlock[] getW(){
+    public ArrayList<TimeBlock> getW(){
         return this.W;
     }
-    public TimeBlock[] getTH(){
+    public ArrayList<TimeBlock> getTH(){
         return this.TH;
     }
-    public TimeBlock[] getF(){
+    public ArrayList<TimeBlock> getF(){
         return this.F;
     }
-    public TimeBlock[] getS(){
+    public ArrayList<TimeBlock> getS(){
         return this.S;
     }
 
