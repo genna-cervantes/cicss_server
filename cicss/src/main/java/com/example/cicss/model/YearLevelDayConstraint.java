@@ -1,28 +1,43 @@
 package com.example.cicss.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.util.List;
 
 @Entity
+@Table(name = "year_level_day_constraints")
 public class YearLevelDayConstraint {
 
     @Id
+    @Column(name = "year_level_day_constraint_id")
+    private String yearLevelDayConstraintId;
+    @Column(name = "department")
     private String department;
+    @Column(name = "first_year_allowed_days")
     private List<String> firstYearAllowedDays;
+    @Column(name = "first_year_max_days_of_recurrence")
     private int firstYearMaxDaysOfRecurrence;
+    @Column(name = "second_year_allowed_days")
     private List<String> secondYearAllowedDays;
+    @Column(name = "second_year_max_days_of_recurrence")
     private int secondYearMaxDaysOfRecurrence;
+    @Column(name = "third_year_allowed_days")
     private List<String> thirdYearAllowedDays;
+    @Column(name = "third_year_max_days_of_recurrence")
     private int thirdYearMaxDaysOfRecurrence;
+    @Column(name = "fourth_year_allowed_days")
     private List<String> fourthYearAllowedDays;
+    @Column(name = "fourth_year_max_days_of_recurrence")
     private int fourthYearMaxDaysOfRecurrence;
 
     public YearLevelDayConstraint() {
     }
 
-    public YearLevelDayConstraint(String department, List<String> firstYearAllowedDays, int firstYearMaxDaysOfRecurrence, List<String> secondYearAllowedDays, int secondYearMaxDaysOfRecurrence, List<String> thirdYearAllowedDays, int thirdYearMaxDaysOfRecurrence, List<String> fourthYearAllowedDays, int fourthYearMaxDaysOfRecurrence) {
+    public YearLevelDayConstraint(String yearLevelDayConstraintId, String department, List<String> firstYearAllowedDays, int firstYearMaxDaysOfRecurrence, List<String> secondYearAllowedDays, int secondYearMaxDaysOfRecurrence, List<String> thirdYearAllowedDays, int thirdYearMaxDaysOfRecurrence, List<String> fourthYearAllowedDays, int fourthYearMaxDaysOfRecurrence) {
+        this.yearLevelDayConstraintId = yearLevelDayConstraintId;
         this.department = department;
         this.firstYearAllowedDays = firstYearAllowedDays;
         this.firstYearMaxDaysOfRecurrence = firstYearMaxDaysOfRecurrence;
@@ -32,6 +47,14 @@ public class YearLevelDayConstraint {
         this.thirdYearMaxDaysOfRecurrence = thirdYearMaxDaysOfRecurrence;
         this.fourthYearAllowedDays = fourthYearAllowedDays;
         this.fourthYearMaxDaysOfRecurrence = fourthYearMaxDaysOfRecurrence;
+    }
+
+    public String getYearLevelDayConstraintId() {
+        return yearLevelDayConstraintId;
+    }
+
+    public void setYearLevelDayConstraintId(String yearLevelDayConstraintId) {
+        this.yearLevelDayConstraintId = yearLevelDayConstraintId;
     }
 
     public String getDepartment() {

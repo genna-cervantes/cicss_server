@@ -1,35 +1,37 @@
 package com.example.cicss.model;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 import java.util.Map;
 
 @Entity
+@Table(name = "gened_constraints")
 public class GenEdConstraint {
 
     @Id
+    @Column(name = "gened_constraint_id")
     private String genEdConstraintId;
+    @Column(name = "course_title")
     private String courseTitle;
+    @Column(name = "course_code")
     private String courseCode;
-    @ElementCollection
-    private List<String> timeRestriction;
-    @ElementCollection
-    private List<String> dayPairRestriction;
+    @Column(name = "day_and_time_restriction")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Map<String, TimeBlock> dayAndTimeRestriction;
 
     public GenEdConstraint()
     {
 
     }
 
-    public GenEdConstraint(String genEdConstraintId, String courseTitle, String courseCode, List<String> timeRestriction, List<String> dayPairRestriction) {
+    public GenEdConstraint(String genEdConstraintId, String courseTitle, String courseCode, Map<String, TimeBlock> dayAndTimeRestriction) {
         this.genEdConstraintId = genEdConstraintId;
         this.courseTitle = courseTitle;
         this.courseCode = courseCode;
-        this.timeRestriction = timeRestriction;
-        this.dayPairRestriction = dayPairRestriction;
+        this.dayAndTimeRestriction = dayAndTimeRestriction;
     }
 
     public String getGenEdConstraintId() {
@@ -56,19 +58,11 @@ public class GenEdConstraint {
         this.courseCode = courseCode;
     }
 
-    public List<String> getTimeRestriction() {
-        return timeRestriction;
+    public Map<String, TimeBlock> getDayAndTimeRestriction() {
+        return dayAndTimeRestriction;
     }
 
-    public void setTimeRestriction(List<String> timeRestriction) {
-        this.timeRestriction = timeRestriction;
-    }
-
-    public List<String> getDayPairRestriction() {
-        return dayPairRestriction;
-    }
-
-    public void setDayPairRestriction(List<String> dayPairRestriction) {
-        this.dayPairRestriction = dayPairRestriction;
+    public void setDayAndTimeRestriction(Map<String, TimeBlock> dayAndTimeRestriction) {
+        this.dayAndTimeRestriction = dayAndTimeRestriction;
     }
 }

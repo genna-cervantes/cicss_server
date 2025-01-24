@@ -3,14 +3,18 @@ package com.example.cicss.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "room")
 public class Room {
 
     @Id
     @Column(name="room_id")
-    private String roomId;
+    private int roomId;
+    @Column(name = "department")
     private String department;
+    @Column(name = "room_type")
     private String roomType;
 
     public Room()
@@ -18,17 +22,17 @@ public class Room {
 
     }
 
-    public Room(String roomId, String department, String roomType) {
+    public Room(int roomId, String department, String roomType) {
         this.roomId = roomId;
         this.department = department;
         this.roomType = roomType;
     }
 
-    public String getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(String roomId) {
+    public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 

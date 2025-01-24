@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TimeBlock {
 
-    @JsonProperty("startTime")
     private String startTime;
-    @JsonProperty("endTime")
     private String endTime;
 
     public TimeBlock() {

@@ -1,32 +1,44 @@
 package com.example.cicss.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.util.Map;
 
 @Entity
+@Table(name = "courses")
 public class Course {
     @Id
+    @Column(name = "course_code")
     private String courseCode;
-    private String courseTitle;
+    @Column(name = "course_name")
+    private String courseName;
+    @Column(name = "units_per_class")
     private int unitsPerClass;
-    private int totalUnits;
+    @Column(name = "course_type")
     private String courseType;
+    @Column(name = "course_category")
     private String courseCategory;
-    private String timeRestrictionId;
+    @Column(name = "restrictions")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Map<String, TimeBlock> restrictions;
+    @Column(name = "total_units")
+    private int totalUnits;
 
     public Course()
     {
 
     }
 
-    public Course(String courseCode, String courseTitle, int unitsPerClass, int totalUnits, String courseType, String courseCategory, String timeRestrictionId) {
+    public Course(String courseCode, String courseName, int unitsPerClass, String courseType, String courseCategory, Map<String, TimeBlock> restrictions, int totalUnits) {
         this.courseCode = courseCode;
-        this.courseTitle = courseTitle;
+        this.courseName = courseName;
         this.unitsPerClass = unitsPerClass;
-        this.totalUnits = totalUnits;
         this.courseType = courseType;
         this.courseCategory = courseCategory;
-        this.timeRestrictionId = timeRestrictionId;
+        this.restrictions = restrictions;
+        this.totalUnits = totalUnits;
     }
 
     public String getCourseCode() {
@@ -37,12 +49,12 @@ public class Course {
         this.courseCode = courseCode;
     }
 
-    public String getcourseTitle() {
-        return courseTitle;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setcourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public int getUnitsPerClass() {
@@ -51,14 +63,6 @@ public class Course {
 
     public void setUnitsPerClass(int unitsPerClass) {
         this.unitsPerClass = unitsPerClass;
-    }
-
-    public int getTotalUnits() {
-        return totalUnits;
-    }
-
-    public void setTotalUnits(int totalUnits) {
-        this.totalUnits = totalUnits;
     }
 
     public String getCourseType() {
@@ -77,11 +81,19 @@ public class Course {
         this.courseCategory = courseCategory;
     }
 
-    public String getTimeRestrictionId() {
-        return timeRestrictionId;
+    public Map<String, TimeBlock> getRestrictions() {
+        return restrictions;
     }
 
-    public void setTimeRestrictionId(String timeRestrictionId) {
-        this.timeRestrictionId = timeRestrictionId;
+    public void setRestrictions(Map<String, TimeBlock> restrictions) {
+        this.restrictions = restrictions;
+    }
+
+    public int getTotalUnits() {
+        return totalUnits;
+    }
+
+    public void setTotalUnits(int totalUnits) {
+        this.totalUnits = totalUnits;
     }
 }

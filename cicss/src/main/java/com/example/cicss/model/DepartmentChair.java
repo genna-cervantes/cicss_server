@@ -1,32 +1,35 @@
 package com.example.cicss.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "department_chair")
 public class DepartmentChair {
     @Id
+    @Column(name = "department_chair_id")
     private String departmentChairId;
+    @Column(name = "department")
     private String department;
+    @Column(name = "department_chair_name")
     private String departmentChairName;
+    @Column(name = "department_chair_email")
     private String departmentChairEmail;
-    private Date createAt;
-    private Date updatedAt;
 
     public DepartmentChair()
     {
 
     }
 
-    public DepartmentChair(String departmentChairId, String department, String departmentChairName, String departmentChairEmail, Date createAt, Date updatedAt) {
+    public DepartmentChair(String departmentChairId, String department, String departmentChairName, String departmentChairEmail) {
         this.departmentChairId = departmentChairId;
         this.department = department;
         this.departmentChairName = departmentChairName;
         this.departmentChairEmail = departmentChairEmail;
-        this.createAt = createAt;
-        this.updatedAt = updatedAt;
     }
 
     public String getDepartmentChairId() {
@@ -59,21 +62,5 @@ public class DepartmentChair {
 
     public void setDepartmentChairEmail(String departmentChairEmail) {
         this.departmentChairEmail = departmentChairEmail;
-    }
-
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
