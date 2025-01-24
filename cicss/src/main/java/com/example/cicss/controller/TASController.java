@@ -1,28 +1,25 @@
 package com.example.cicss.controller;
 
-import com.example.cicss.dao.DepartmentChairRepository;
-import com.example.cicss.model.DepartmentChair;
-import com.example.cicss.service.DepartmentChairService;
+import com.example.cicss.service.TASService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
-@RequestMapping("/departmentchair")
+@RequestMapping("/tas")
 @CrossOrigin("http://localhost:5173")
-public class DepartmentChairController {
+public class TASController {
 
     @Autowired
-    private DepartmentChairService departmentChairService;
+    private TASService tasService;
 
     @PostMapping("/authenticate")
     public HashMap<String, Object> authenticate(@RequestBody HashMap<String, String> rqBody) throws Exception{
         String email = rqBody.get("email");
 
         // db connection stuff
-        boolean isAuth = departmentChairService.authByEmail(email);
+        boolean isAuth = tasService.authByEmail(email);
 
         HashMap<String, Object> response = new HashMap<>();
         response.put("auth", isAuth);

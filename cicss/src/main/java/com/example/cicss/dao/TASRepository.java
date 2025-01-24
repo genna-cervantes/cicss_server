@@ -1,14 +1,14 @@
 package com.example.cicss.dao;
 
-import com.example.cicss.model.DepartmentChair;
+import com.example.cicss.model.TAS;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DepartmentChairRepository extends JpaRepository<DepartmentChair, String> {
+public interface TASRepository extends JpaRepository<TAS, String> {
     @Query(
-            value = "SELECT COUNT(*) > 0 FROM department_chair WHERE email = ?1",
+            value = "SELECT COUNT(*) > 0 FROM teaching_academic_staff WHERE email = ?1",
             nativeQuery = true
     )
     boolean authByEmail(String email);
