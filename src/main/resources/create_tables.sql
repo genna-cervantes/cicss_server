@@ -66,3 +66,30 @@ CREATE TABLE backend.year_level_time_constraints (
 	department VARCHAR(2) NOT NULL,
 	restrictions JSONB NOT NULL
 )
+
+CREATE TABLE backend.schedules (
+	schedule_id VARCHAR(10) PRIMARY KEY NOT NULL,
+	room_ids VARCHAR[] NOT NULL,
+	tas_ids VARCHAR[] NOT NULL,
+	year_level_time_constraint_ids VARCHAR[] NOT NULL,
+	year_level_day_constraint_ids VARCHAR[] NOT NULL,
+	ratings_ids VARCHAR[] NOT NULL,
+	schedule JSONB NOT NULL,
+	cs_locked BOOLEAN NOT NULL,
+	it_locked BOOLEAN NOT NULL,
+	is_locked BOOLEAN NOT NULL,
+	cs_ready BOOLEAN NOT NULL,
+	it_ready BOOLEAN NOT NULL,
+	is_ready BOOLEAN NOT NULL,
+	cs_deploy BOOLEAN NOT NULL,
+	it_deploy BOOLEAN NOT NULL,
+	is_deploy BOOLEAN NOT NULL,
+	status VARCHAR(20) NOT NULL,
+	active BOOLEAN NOT NULL
+);
+
+CREATE TABLE generated_schedules_cache (
+	schedule_cache_id VARCHAR(10) PRIMARY KEY NOT NULL,
+	schedule JSONB NOT NULL,
+	is_active INTEGER NOT NULL,
+)
