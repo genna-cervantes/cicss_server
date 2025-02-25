@@ -1,9 +1,8 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "room")
@@ -16,6 +15,9 @@ public class Room {
     private String department;
     @Column(name = "room_type")
     private String roomType;
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public Room()
     {
@@ -26,6 +28,19 @@ public class Room {
         this.roomId = roomId;
         this.department = department;
         this.roomType = roomType;
+    }
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate()
+    {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public int getRoomId() {

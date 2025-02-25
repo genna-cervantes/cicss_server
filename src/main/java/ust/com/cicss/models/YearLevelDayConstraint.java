@@ -1,10 +1,8 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -32,6 +30,10 @@ public class YearLevelDayConstraint {
     private List<String> fourthYearAllowedDays;
     @Column(name = "fourth_year_max_days_of_recurrence")
     private int fourthYearMaxDaysOfRecurrence;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public YearLevelDayConstraint() {
     }
@@ -47,6 +49,19 @@ public class YearLevelDayConstraint {
         this.thirdYearMaxDaysOfRecurrence = thirdYearMaxDaysOfRecurrence;
         this.fourthYearAllowedDays = fourthYearAllowedDays;
         this.fourthYearMaxDaysOfRecurrence = fourthYearMaxDaysOfRecurrence;
+    }
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate()
+    {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public String getYearLevelDayConstraintId() {

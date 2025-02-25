@@ -1,10 +1,8 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,6 +21,9 @@ public class CourseOfferings {
     private String specialization;
     @Column(name = "courses")
     private List<String> courses;
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public CourseOfferings() {
     }
@@ -34,6 +35,19 @@ public class CourseOfferings {
         this.semester = semester;
         this.specialization = specialization;
         this.courses = courses;
+    }
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate()
+    {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public String getCourseOfferingsId() {

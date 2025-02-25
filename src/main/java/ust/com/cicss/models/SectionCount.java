@@ -1,9 +1,8 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "section_count")
@@ -22,6 +21,10 @@ public class SectionCount {
     private int thirdYearSectionCount;
     @Column(name = "fourth_year_section_count")
     private int fourthYearSectionCount;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public SectionCount() {
     }
@@ -33,6 +36,19 @@ public class SectionCount {
         this.secondYearSectionCount = secondYearSectionCount;
         this.thirdYearSectionCount = thirdYearSectionCount;
         this.fourthYearSectionCount = fourthYearSectionCount;
+    }
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate()
+    {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public String getSectionCountId() {
