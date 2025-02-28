@@ -1,12 +1,10 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +25,10 @@ public class TASConstraint {
     @Column(name = "day_and_time_restrictions")
     @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, TimeBlock> dayAndTimeRestrictions;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public TASConstraint() {
     }
@@ -37,6 +39,19 @@ public class TASConstraint {
         this.tasStatus = tasStatus;
         this.specialtyCourses = specialtyCourses;
         this.dayAndTimeRestrictions = dayAndTimeRestrictions;
+    }
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate()
+    {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public String getTasConstraintId() {

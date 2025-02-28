@@ -1,11 +1,10 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Entity
@@ -16,6 +15,10 @@ public class GeneratedSchedulesCache {
     private String generatedSchedulesCacheId;
     @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, Object> schedule;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public GeneratedSchedulesCache() {
     }
@@ -23,6 +26,19 @@ public class GeneratedSchedulesCache {
     public GeneratedSchedulesCache(String generatedSchedulesCacheId, Map<String, Object> schedule) {
         this.generatedSchedulesCacheId = generatedSchedulesCacheId;
         this.schedule = schedule;
+    }
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate()
+    {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public String getGeneratedSchedulesCacheId() {

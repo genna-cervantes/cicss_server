@@ -1,12 +1,10 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Entity
@@ -23,6 +21,10 @@ public class GenEdConstraint {
     @Column(name = "day_and_time_restriction")
     @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, TimeBlock> dayAndTimeRestriction;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public GenEdConstraint()
     {
@@ -34,6 +36,19 @@ public class GenEdConstraint {
         this.courseTitle = courseTitle;
         this.courseCode = courseCode;
         this.dayAndTimeRestriction = dayAndTimeRestriction;
+    }
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate()
+    {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public String getGenEdConstraintId() {

@@ -1,9 +1,9 @@
 package ust.com.cicss.models;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class DepartmentChair {
@@ -12,8 +12,10 @@ public class DepartmentChair {
     private String department;
     private String departmentChairName;
     private String departmentChairEmail;
-    private Date createAt;
-    private Date updatedAt;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public DepartmentChair()
     {
@@ -25,8 +27,19 @@ public class DepartmentChair {
         this.department = department;
         this.departmentChairName = departmentChairName;
         this.departmentChairEmail = departmentChairEmail;
-        this.createAt = createAt;
-        this.updatedAt = updatedAt;
+    }
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate()
+    {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public String getDepartmentChairId() {
@@ -61,19 +74,4 @@ public class DepartmentChair {
         this.departmentChairEmail = departmentChairEmail;
     }
 
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
