@@ -131,3 +131,14 @@ CREATE TABLE backend.rooms (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE backend.teaching_academic_staff (
+	tas_id VARCHAR(10) PRIMARY KEY NOT NULL,
+	units INTEGER NOT NULL,
+	courses VARCHAR[] NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	restrictions JSONB NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+)

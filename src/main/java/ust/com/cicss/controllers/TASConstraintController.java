@@ -1,9 +1,25 @@
 package ust.com.cicss.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ust.com.cicss.dao.TASConstraintRepository;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import ust.com.cicss.dao.TASRepository;
+import ust.com.cicss.models.TAS;
 import ust.com.cicss.models.TASConstraint;
+import ust.com.cicss.services.TASService;
 
 import java.util.List;
 
@@ -12,35 +28,58 @@ import java.util.List;
 public class TASConstraintController {
 
     @Autowired
-    private TASConstraintRepository repo;
+    private TASRepository repo;
+
+    @Autowired
+    private TASService service;
 
     @GetMapping
     public List<TASConstraint> getAllTASConstraints()
     {
-        return repo.findAll();
+        //return repo.findAll();
+        // SELECT tas_id, name, units, courses, restrictions FROM teaching_academic_staff;
+        return service.getAllTASConstraints();
     }
 
     @GetMapping("/{TASConstraintId}")
-    public TASConstraint getTASConstraintById(@PathVariable String TASConstraintId)
+    public TASConstraint getTASConstraintById(@PathVariable String tasId)
     {
-        return repo.findById(TASConstraintId).orElse(null);
+        return service.getTASConstraintById(tasId);
     }
 
     @PostMapping
-    public void addTASConstraint(@RequestBody TASConstraint tasConstraint)
+    public void addTASConstraint(@Valid @RequestBody TAS tas)
     {
-        repo.save(tasConstraint);
+        //repo.save(tasConstraint);
+        // mag gegenerate ng unique id na nag sstart with PF like 'PF7ocPtozS'
+        // ung units nakadepend kung part time or full time 15 24
+        // courses is a text array
+        // REQ BODY: {tas_id: 'PF12345678', name: 'Edited Name', units: 24 .. EVERYTHING ELSE DAPAT LAHAT PRESENT paki error ung return if may missing value}
+        String randomString = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        String tasId = "PF" + randomString;
+        tas.setId(tasId);
+        // INSERT INTO teaching_academic_staff (tas_id, units, courses, main_department, restrictions, name, email) VALUES (ung values)
+        repo.save(tas);
     }
 
     @PutMapping
-    public void updateTASConstraint(@RequestBody TASConstraint tasConstraint)
+    public void updateTASConstraint(@RequestBody TAS tas)
     {
-        repo.save(tasConstraint);
+        //repo.save(tasConstraint);
+        // ang structure ng request body should be tas_id tapos kung ano lng iuupdate like
+        // REQ BODY: {tas_id: 'PF12345678', name: 'Edited Name', units: 24} -- name and units lng ung ieedit
+
+        // UPDATE teaching_academic_staff updatecolumn = updatedcolvalue WHERE tas_id = tas_id
+        repo.save(tas);
     }
 
     @DeleteMapping
-    public void deleteTASConstraint(@RequestBody TASConstraint tasConstraint)
+    public void deleteTASConstraint(@RequestBody TAS tas)
     {
-        repo.delete(tasConstraint);
+        //repo.delete(tasConstraint);
+        // REQ BODY: {tas_id: 'PF12345678'}
+
+        // UPDATE teaching_academic_staff is_active = 1 WHERE tas_id = tas_id
+        repo.delete(tas);
     }
 }
