@@ -38,14 +38,14 @@ public class YearLevelDayConstraintController {
     @PutMapping
     public void updateYearLevelDayConstraint(@RequestBody YearLevelDayConstraint yearLevelDayConstraint)
     {
-        // UPDATE courses SET updatecolumn = updatedcolvalue WHERE year_day_restriction_id = year_day_restriction_id
+        // UPDATE year_day_restrictions SET updatecolumn = updatedcolvalue WHERE year_day_restriction_id = year_day_restriction_id
         repo.save(yearLevelDayConstraint);
     }
     
     @DeleteMapping
     public void deleteYearLevelDayConstraint(@RequestBody YearLevelDayConstraint yearLevelDayConstraint)
     {
-        // UPDATE courses SET is_active = 0 WHERE year_day_restriction_id = year_day_restriction_id
+        // UPDATE year_day_restrictions SET is_active = 0 WHERE year_day_restriction_id = year_day_restriction_id
         repo.delete(yearLevelDayConstraint);
     }
 }
