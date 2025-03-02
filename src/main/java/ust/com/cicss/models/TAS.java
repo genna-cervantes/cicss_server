@@ -22,7 +22,7 @@ public class TAS {
     private String tasId;
 
     @Column(name = "units")
-    @Min(value = 15,message = "units must be greater than or equal to 15")
+    @Min(value = 15,message = "units field is incorrect")
     private int units;
 
     @Column(name = "courses")
@@ -39,7 +39,6 @@ public class TAS {
     @NotBlank(message = "the email field is empty")
     private String email;
 
-    @Embedded
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "restrictions")
     @NotNull(message = "The restrictions field is null")
