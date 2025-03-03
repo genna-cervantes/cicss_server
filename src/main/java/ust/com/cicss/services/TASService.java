@@ -1,17 +1,18 @@
 
 package ust.com.cicss.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ust.com.cicss.dao.TASRepository;
-import ust.com.cicss.models.Restrictions;
-import ust.com.cicss.models.Schedule;
 import ust.com.cicss.models.TAS;
 import ust.com.cicss.models.TASConstraint;
-
-import java.util.*;
 
 @Service
 public class TASService {
@@ -52,7 +53,6 @@ public class TASService {
 //        return tasConstraints;
 //    }
 
-
     public List<TASConstraint> getAllTASConstraints() {
         List<String> tasIds = tasRepo.getAllTASIds();
         List<TASConstraint> tasConstraints = new ArrayList<>();
@@ -67,9 +67,14 @@ public class TASService {
                     tas.getCourses(),
                     tas.getRestrictions()
             );
+            // System.out.println("tas constraints");
+            // System.out.println(tas.getRestrictions());
             tasConstraints.add(tasConstraint);
         }
         return tasConstraints;
+
+        // List<String> tables = tasRepo.getAllTables();
+        // return tables;
     }
 
     public TASConstraint getTASConstraintById(String tasId) {

@@ -1,40 +1,39 @@
 
 package ust.com.cicss.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Embeddable;
-
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TimeBlock implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("startTime")
-    private String startTime;
-    @JsonProperty("endTime")
-    private String endTime;
+    @JsonProperty("start")
+    private String start;
+    @JsonProperty("end")
+    private String end;
 
     public TimeBlock() {
     }
 
-    public TimeBlock(String startTime, String endTime) {
-        this.startTime = startTime;
-        this.endTime = endTime;
+    public TimeBlock(String start, String end) {
+        this.start = start;
+        this.end = end;
     }
 
     public String getStartTime() {
-        return startTime;
+        return start;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setStartTime(String start) {
+        this.start = start;
     }
 
     public String getEndTime() {
-        return endTime;
+        return end;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setEndTime(String end) {
+        this.end = end;
     }
 }

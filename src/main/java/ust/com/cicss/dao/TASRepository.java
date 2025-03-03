@@ -1,17 +1,16 @@
 
 package ust.com.cicss.dao;
 
-import jakarta.transaction.Transactional;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import jakarta.transaction.Transactional;
 import ust.com.cicss.models.Restrictions;
 import ust.com.cicss.models.TAS;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public interface TASRepository extends JpaRepository<TAS, String> {
@@ -21,8 +20,12 @@ public interface TASRepository extends JpaRepository<TAS, String> {
     )
     boolean authByEmail(String email);
 
-    @Query(value = "SELECT tas_id FROM backend.teaching_academic_staff", nativeQuery = true)
+    @Query(value = "SELECT tas_id FROM teaching_academic_staff", nativeQuery = true)
     List<String> getAllTASIds();
+
+    // // delete later
+    // @Query(value = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';", nativeQuery = true)
+    // List<String> getAllTables();
 
     @Query(value = "SELECT name, units, courses, restrictions FROM teaching_academic_staff WHERE tas_id = ?", nativeQuery = true)
     Object getTASConstraintById(String TASId);

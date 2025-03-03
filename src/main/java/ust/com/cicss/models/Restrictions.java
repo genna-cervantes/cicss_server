@@ -4,79 +4,76 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.Embeddable;
-
-//@Embeddable
 public class Restrictions {
-    @JsonProperty("m")
-    private ArrayList<TimeBlock> m;
-    @JsonProperty("t")
-    private ArrayList<TimeBlock> t;
-    @JsonProperty("w")
-    private ArrayList<TimeBlock> w;
-    @JsonProperty("th")
-    private ArrayList<TimeBlock> th;
-    @JsonProperty("f")
-    private ArrayList<TimeBlock> f;
-    @JsonProperty("s")
-    private ArrayList<TimeBlock> s;
+    private ArrayList M;
+    private ArrayList T;
+    private ArrayList W;
+    private ArrayList TH;
+    private ArrayList F;
+    private ArrayList S;
 
-    public Restrictions(){}
+    public Restrictions() {}
 
-    public Restrictions(ArrayList<TimeBlock> m, ArrayList<TimeBlock> t, ArrayList<TimeBlock> w, ArrayList<TimeBlock> th, ArrayList<TimeBlock> f, ArrayList<TimeBlock> s) {
-        this.m = m;
-        this.t = t;
-        this.w = w;
-        this.th = th;
-        this.f = f;
-        this.s = s;
+    public Restrictions(ArrayList M, ArrayList T, ArrayList W, ArrayList TH, ArrayList F, ArrayList S) {
+        this.M = M;
+        this.T = T;
+        this.W = W;
+        this.TH = TH;
+        this.F = F;
+        this.S = S;
     }
 
-    public ArrayList<TimeBlock> getM() {
-        return m;
+    @JsonProperty("M")
+    public ArrayList getM() {
+        return M;
     }
 
-    public void setM(ArrayList<TimeBlock> m) {
-        this.m = m;
+    public void setM(ArrayList M) {
+        this.M = M;
     }
 
-    public ArrayList<TimeBlock> getT() {
-        return t;
+    @JsonProperty("T")
+    public ArrayList getT() {
+        return T;
     }
 
-    public void setT(ArrayList<TimeBlock> t) {
-        this.t = t;
+    public void setT(ArrayList T) {
+        this.T = T;
     }
 
-    public ArrayList<TimeBlock> getW() {
-        return w;
+    @JsonProperty("W")
+    public ArrayList getW() {
+        return W;
     }
 
-    public void setW(ArrayList<TimeBlock> w) {
-        this.w = w;
+    public void setW(ArrayList W) {
+        this.W = W;
     }
 
-    public ArrayList<TimeBlock> getTh() {
-        return th;
+    @JsonProperty("TH")
+    public ArrayList getTh() {
+        return TH;
     }
 
-    public void setTh(ArrayList<TimeBlock> th) {
-        this.th = th;
+    public void setTh(ArrayList TH) {
+        this.TH = TH;
     }
 
-    public ArrayList<TimeBlock> getF() {
-        return f;
+    @JsonProperty("F")
+    public ArrayList getF() {
+        return F;
     }
 
-    public void setF(ArrayList<TimeBlock> f) {
-        this.f = f;
+    public void setF(ArrayList F) {
+        this.F = F;
     }
 
-    public ArrayList<TimeBlock> getS() {
-        return s;
+    @JsonProperty("S")
+    public ArrayList getS() {
+        return S;
     }
 
-    public void setS(ArrayList<TimeBlock> s) {
-        this.s = s;
+    public void setS(ArrayList S) {
+        this.S = S;
     }
 }
