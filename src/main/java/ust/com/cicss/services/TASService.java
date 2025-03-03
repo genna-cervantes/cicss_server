@@ -53,6 +53,28 @@ public class TASService {
 //        return tasConstraints;
 //    }
 
+    public List<TASConstraint> getAllTASConstraintsByDepartment(String department){
+        List<String> tasIds = tasRepo.getAllTASIdsByDepartment(department);
+        List<TASConstraint> tasConstraints = new ArrayList<>();
+
+        for(String tasId: tasIds) {
+            TAS tas = tasRepo.findById(tasId)
+                    .orElseThrow(() -> new NoSuchElementException("TAS not found with ID: " + tasId));
+            TASConstraint tasConstraint = new TASConstraint(
+                    tasId,
+                    tas.getName(),
+                    tas.getUnits(),
+                    tas.getCourses(),
+                    tas.getMainDepartment(),
+                    tas.getRestrictions()
+            );
+            // System.out.println("tas constraints");
+            // System.out.println(tas.getRestrictions());
+            tasConstraints.add(tasConstraint);
+        }
+        return tasConstraints;
+    }
+
     public List<TASConstraint> getAllTASConstraints() {
         List<String> tasIds = tasRepo.getAllTASIds();
         List<TASConstraint> tasConstraints = new ArrayList<>();

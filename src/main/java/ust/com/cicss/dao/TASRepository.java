@@ -23,9 +23,8 @@ public interface TASRepository extends JpaRepository<TAS, String> {
     @Query(value = "SELECT tas_id FROM teaching_academic_staff", nativeQuery = true)
     List<String> getAllTASIds();
 
-    // // delete later
-    // @Query(value = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';", nativeQuery = true)
-    // List<String> getAllTables();
+    @Query(value = "SELECT tas_id FROM teaching_academic_staff WHERE main_department = ?", nativeQuery = true)
+    List<String> getAllTASIdsByDepartment(String department);
 
     @Query(value = "SELECT name, units, courses, restrictions FROM teaching_academic_staff WHERE tas_id = ?", nativeQuery = true)
     Object getTASConstraintById(String TASId);

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import ust.com.cicss.services.TASService;
 
 @RestController
 @RequestMapping("/tasconstraints")
+@CrossOrigin(origins = "*")
 public class TASConstraintController {
 
     @Autowired
@@ -38,11 +40,16 @@ public class TASConstraintController {
         return service.getAllTASConstraints();
     }
 
-    // no use case
-    @GetMapping("/{TASConstraintId}")
-    public TASConstraint getTASConstraintById(@PathVariable String tasId) {
-        return service.getTASConstraintById(tasId);
+    @GetMapping("/{mainDepartment}")
+    public List<TASConstraint> getAllTASConstraintsByDepartment(@PathVariable String mainDepartment) {
+        return service.getAllTASConstraintsByDepartment(mainDepartment);
     }
+
+    // no use case
+    // @GetMapping("/{TASConstraintId}")
+    // public TASConstraint getTASConstraintById(@PathVariable String tasId) {
+    //     return service.getTASConstraintById(tasId);
+    // }
 
     @PostMapping
     public void addTASConstraint(@Valid @RequestBody TAS tas) {
