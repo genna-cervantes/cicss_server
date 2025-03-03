@@ -1,3 +1,5 @@
+
+
 package ust.com.cicss.models;
 
 import jakarta.persistence.*;
@@ -8,89 +10,62 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-
-@Entity
-@Table(name = "tas_constraints")
 public class TASConstraint {
 
-    @Id
-    @Column(name = "tas_constraint_id")
-    private String tasConstraintId;
-    @Column(name = "tas_name")
-    private String tasName;
-    @Column(name = "tas_status")
-    private String tasStatus;
-    @Column(name = "specialty_courses")
-    private List<String> specialtyCourses;
-    @Column(name = "day_and_time_restrictions")
-    @JdbcTypeCode(SqlTypes.JSON)
-    private Map<String, TimeBlock> dayAndTimeRestrictions;
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private String tasId;
+    private String name;
+    private int units;
+    private String[] courses;
+    private Restrictions restrictions;
 
     public TASConstraint() {
     }
 
-    public TASConstraint(String tasConstraintId, String tasName, String tasStatus, List<String> specialtyCourses, Map<String, TimeBlock> dayAndTimeRestrictions) {
-        this.tasConstraintId = tasConstraintId;
-        this.tasName = tasName;
-        this.tasStatus = tasStatus;
-        this.specialtyCourses = specialtyCourses;
-        this.dayAndTimeRestrictions = dayAndTimeRestrictions;
+    public TASConstraint(String tasId, String name, int units, String[] courses, Restrictions restrictions) {
+        this.tasId = tasId;
+        this.name = name;
+        this.units = units;
+        this.courses = courses;
+        this.restrictions = restrictions;
     }
 
-    @PrePersist
-    protected void onCreate()
-    {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+    public String getTasId() {
+        return tasId;
     }
 
-    @PreUpdate
-    protected void onUpdate()
-    {
-        this.updatedAt = LocalDateTime.now();
+    public void setTasId(String tasId) {
+        this.tasId = tasId;
     }
 
-    public String getTasConstraintId() {
-        return tasConstraintId;
+    public String getName() {
+        return name;
     }
 
-    public void setTasConstraintId(String tasConstraintId) {
-        this.tasConstraintId = tasConstraintId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTasName() {
-        return tasName;
+    public int getUnits() {
+        return units;
     }
 
-    public void setTasName(String tasName) {
-        this.tasName = tasName;
+    public void setUnits(int units) {
+        this.units = units;
     }
 
-    public String getTasStatus() {
-        return tasStatus;
+    public String[] getCourses() {
+        return courses;
     }
 
-    public void setTasStatus(String tasStatus) {
-        this.tasStatus = tasStatus;
+    public void setCourses(String[] courses) {
+        this.courses = courses;
     }
 
-    public List<String> getSpecialtyCourses() {
-        return specialtyCourses;
+    public Restrictions getRestrictions() {
+        return restrictions;
     }
 
-    public void setSpecialtyCourses(List<String> specialtyCourses) {
-        this.specialtyCourses = specialtyCourses;
-    }
-
-    public Map<String, TimeBlock> getDayAndTimeRestrictions() {
-        return dayAndTimeRestrictions;
-    }
-
-    public void setDayAndTimeRestrictions(Map<String, TimeBlock> dayAndTimeRestrictions) {
-        this.dayAndTimeRestrictions = dayAndTimeRestrictions;
+    public void setRestrictions(Restrictions restrictions) {
+        this.restrictions = restrictions;
     }
 }
