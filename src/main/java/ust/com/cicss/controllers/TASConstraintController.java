@@ -113,8 +113,17 @@ public class TASConstraintController {
     public void deleteTASConstraint(@RequestBody Map<String, String> tas_id) {
         //repo.delete(tasConstraint);
         // REQ BODY: {tas_id: 'PF12345678'}
+        if (tas_id == null || tas_id.isEmpty()) {
+            throw new IllegalArgumentException("Missing tasId for delete");
+        }
+
         Map.Entry<String, String> entry = tas_id.entrySet().iterator().next();
         String value = entry.getValue();
+
+        if (value == null) {
+            throw new IllegalArgumentException("Missing tasId for delete");
+        }
+
         // UPDATE teaching_academic_staff is_active = 1 WHERE tas_id = tas_id
         repo.deleteById(value);
     }
