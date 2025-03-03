@@ -7,6 +7,7 @@ import ust.com.cicss.dao.CourseRepository;
 import ust.com.cicss.models.Course;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/courses")

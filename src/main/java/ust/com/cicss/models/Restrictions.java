@@ -6,68 +6,77 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Embeddable;
 
-@Embeddable
+//@Embeddable
 public class Restrictions {
-    @JsonProperty("M")
-    private ArrayList<TimeBlock> M;
-    @JsonProperty("T")
-    private ArrayList<TimeBlock> T;
-    @JsonProperty("W")
-    private ArrayList<TimeBlock> W;
-    @JsonProperty("TH")
-    private ArrayList<TimeBlock> TH;
-    @JsonProperty("F")
-    private ArrayList<TimeBlock> F;
-    @JsonProperty("S")
-    private ArrayList<TimeBlock> S;
+    @JsonProperty("m")
+    private ArrayList<TimeBlock> m;
+    @JsonProperty("t")
+    private ArrayList<TimeBlock> t;
+    @JsonProperty("w")
+    private ArrayList<TimeBlock> w;
+    @JsonProperty("th")
+    private ArrayList<TimeBlock> th;
+    @JsonProperty("f")
+    private ArrayList<TimeBlock> f;
+    @JsonProperty("s")
+    private ArrayList<TimeBlock> s;
 
     public Restrictions(){}
 
-    public Restrictions(ArrayList<TimeBlock> M, ArrayList<TimeBlock> T, ArrayList<TimeBlock> W, ArrayList<TimeBlock> TH, ArrayList<TimeBlock> F, ArrayList<TimeBlock> S){
-        this.M = M;
-        this.T = T;
-        this.W = W;
-        this.TH = TH;
-        this.F = F;
-        this.S = S;
+    public Restrictions(ArrayList<TimeBlock> m, ArrayList<TimeBlock> t, ArrayList<TimeBlock> w, ArrayList<TimeBlock> th, ArrayList<TimeBlock> f, ArrayList<TimeBlock> s) {
+        this.m = m;
+        this.t = t;
+        this.w = w;
+        this.th = th;
+        this.f = f;
+        this.s = s;
     }
 
-    public void setM(ArrayList<TimeBlock> M){
-        this.M = M;
-    }
-    public void setT(ArrayList<TimeBlock> T){
-        this.T = T;
-    }
-    public void setW(ArrayList<TimeBlock> W){
-        this.W = W;
-    }
-    public void setTH(ArrayList<TimeBlock> TH){
-        this.TH = TH;
-    }
-    public void setF(ArrayList<TimeBlock> F){
-        this.F = F;
-    }
-    public void setS(ArrayList<TimeBlock> S){
-        this.S = S;
+    public ArrayList<TimeBlock> getM() {
+        return m;
     }
 
-    public ArrayList<TimeBlock> getM(){
-        return this.M;
-    }
-    public ArrayList<TimeBlock> getT(){
-        return this.T;
-    }
-    public ArrayList<TimeBlock> getW(){
-        return this.W;
-    }
-    public ArrayList<TimeBlock> getTH(){
-        return this.TH;
-    }
-    public ArrayList<TimeBlock> getF(){
-        return this.F;
-    }
-    public ArrayList<TimeBlock> getS(){
-        return this.S;
+    public void setM(ArrayList<TimeBlock> m) {
+        this.m = m;
     }
 
+    public ArrayList<TimeBlock> getT() {
+        return t;
+    }
+
+    public void setT(ArrayList<TimeBlock> t) {
+        this.t = t;
+    }
+
+    public ArrayList<TimeBlock> getW() {
+        return w;
+    }
+
+    public void setW(ArrayList<TimeBlock> w) {
+        this.w = w;
+    }
+
+    public ArrayList<TimeBlock> getTh() {
+        return th;
+    }
+
+    public void setTh(ArrayList<TimeBlock> th) {
+        this.th = th;
+    }
+
+    public ArrayList<TimeBlock> getF() {
+        return f;
+    }
+
+    public void setF(ArrayList<TimeBlock> f) {
+        this.f = f;
+    }
+
+    public ArrayList<TimeBlock> getS() {
+        return s;
+    }
+
+    public void setS(ArrayList<TimeBlock> s) {
+        this.s = s;
+    }
 }

@@ -62,17 +62,12 @@ CREATE TABLE backend.tas_constraints (
 
 CREATE TABLE backend.year_level_day_constraints (
     year_level_day_constraint_id VARCHAR(10) PRIMARY KEY NOT NULL,
-    department VARCHAR(2) NOT NULL,
-    first_year_allowed_days VARCHAR[] NOT NULL,
-    first_year_max_days_of_recurrence INTEGER NOT NULL,
-    second_year_allowed_days VARCHAR[] NOT NULL,
-    second_year_max_days_of_recurrence INTEGER NOT NULL,
-    third_year_allowed_days VARCHAR[] NOT NULL,
-    third_year_max_days_of_recurrence INTEGER NOT NULL,
-    fourth_year_allowed_days VARCHAR[] NOT NULL,
-    fourth_year_max_days_of_recurrence INTEGER NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    available_days VARCHAR[] NOT NULL,
+	max_days INTEGER NOT NULL,
+	department VARCHAR(2) NOT NULL,
+	year_level INTEGER NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE backend.year_level_time_constraints (
@@ -131,3 +126,14 @@ CREATE TABLE backend.rooms (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE backend.teaching_academic_staff (
+	tas_id VARCHAR(10) PRIMARY KEY NOT NULL,
+	units INTEGER NOT NULL,
+	courses VARCHAR[] NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	restrictions JSONB NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+)

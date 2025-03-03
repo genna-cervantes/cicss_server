@@ -1,6 +1,7 @@
 package ust.com.cicss.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,8 @@ public class CourseOfferingsController {
     public void addCourseOfferings(@RequestBody CourseOfferings courseOfferings) {
         // 2 ung queries na need gawin nito
         // generate course id CR + random string of length 8 so 'CRRwSJc1Ec'
+        String randomString = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        String courseOfferingId = "CR" + randomString;
 
         // INSERT INTO courses (course_id, subject_code, units_per_class, type, category, restrictions, total_units, specific_room_assignment) VALUES (...ung values) -- nasa req body toh dapat lahat
         // UPDATE curriculum

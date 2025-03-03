@@ -7,64 +7,38 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-@Entity
-@Table(name = "gened_constraints")
 public class GenEdConstraint {
 
-    @Id
-    @Column(name = "gened_constraint_id")
-    private String genEdConstraintId;
-    @Column(name = "course_title")
-    private String courseTitle;
-    @Column(name = "course_code")
+//    private String courseId;
+    private String courseName;
     private String courseCode;
-    @Column(name = "day_and_time_restriction")
-    @JdbcTypeCode(SqlTypes.JSON)
-    private Map<String, TimeBlock> dayAndTimeRestriction;
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Embedded
+    private Restrictions restrictions;
 
-    public GenEdConstraint()
-    {
-
+    public GenEdConstraint() {
     }
 
-    public GenEdConstraint(String genEdConstraintId, String courseTitle, String courseCode, Map<String, TimeBlock> dayAndTimeRestriction) {
-        this.genEdConstraintId = genEdConstraintId;
-        this.courseTitle = courseTitle;
+    public GenEdConstraint(String courseCode, String courseName, Restrictions restrictions) {
+//        this.courseId = courseId;
+        this.courseName = courseName;
         this.courseCode = courseCode;
-        this.dayAndTimeRestriction = dayAndTimeRestriction;
+        this.restrictions = restrictions;
     }
 
-    @PrePersist
-    protected void onCreate()
-    {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+//    public String getCourseId() {
+//        return courseId;
+//    }
+//
+//    public void setCourseId(String courseId) {
+//        this.courseId = courseId;
+//    }
+
+    public String getCourseName() {
+        return courseName;
     }
 
-    @PreUpdate
-    protected void onUpdate()
-    {
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public String getGenEdConstraintId() {
-        return genEdConstraintId;
-    }
-
-    public void setGenEdConstraintId(String genEdConstraintId) {
-        this.genEdConstraintId = genEdConstraintId;
-    }
-
-    public String getCourseTitle() {
-        return courseTitle;
-    }
-
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public String getCourseCode() {
@@ -75,11 +49,11 @@ public class GenEdConstraint {
         this.courseCode = courseCode;
     }
 
-    public Map<String, TimeBlock> getDayAndTimeRestriction() {
-        return dayAndTimeRestriction;
+    public Restrictions getRestrictions() {
+        return restrictions;
     }
 
-    public void setDayAndTimeRestriction(Map<String, TimeBlock> dayAndTimeRestriction) {
-        this.dayAndTimeRestriction = dayAndTimeRestriction;
+    public void setRestrictions(Restrictions restrictions) {
+        this.restrictions = restrictions;
     }
 }
