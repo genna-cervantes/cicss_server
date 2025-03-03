@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.validation.Valid;
 import ust.com.cicss.dao.TASRepository;
 import ust.com.cicss.models.Restrictions;
@@ -78,6 +80,7 @@ public class TASConstraintController {
 
         // UPDATE teaching_academic_staff updatecolumn = updatedcolvalue WHERE tas_id = tas_id
         String tas_id = String.valueOf(updates.get("tasId"));
+        ObjectMapper mapper = new ObjectMapper();
         String column = "";
         Object value = null;
 
@@ -102,10 +105,12 @@ public class TASConstraintController {
                     repo.updateEmail(tas_id, (String) value);
                     break;
                 case "courses":
-                    repo.updateCourses(tas_id, (String[]) value);
+                    String[] courses = mapper.convertValue(value, String[].class);
+                    repo.updateCourses(tas_id, courses);
                     break;
                 case "restrictions":
-                    repo.updateRestrictions(tas_id, (Restrictions) value);
+                    Restrictions restrictions = mapper.convertValue(value, Restrictions.class);
+                    repo.updateRestrictions(tas_id, restrictions);
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid column name: " + column);
