@@ -1,4 +1,3 @@
-
 package ust.com.cicss.controllers;
 
 import java.util.List;
@@ -33,8 +32,7 @@ public class TASConstraintController {
     private TASService service;
 
     @GetMapping
-    public List<TASConstraint> getAllTASConstraints()
-    {
+    public List<TASConstraint> getAllTASConstraints() {
         //return repo.findAll();
         // SELECT tas_id, name, units, courses, restrictions FROM teaching_academic_staff;
         return service.getAllTASConstraints();
@@ -42,14 +40,12 @@ public class TASConstraintController {
 
     // no use case
     @GetMapping("/{TASConstraintId}")
-    public TASConstraint getTASConstraintById(@PathVariable String tasId)
-    {
+    public TASConstraint getTASConstraintById(@PathVariable String tasId) {
         return service.getTASConstraintById(tasId);
     }
 
     @PostMapping
-    public void addTASConstraint(@Valid @RequestBody TAS tas)
-    {
+    public void addTASConstraint(@Valid @RequestBody TAS tas) {
         //repo.save(tasConstraint);
         // mag gegenerate ng unique id na nag sstart with PF like 'PF7ocPtozS'
         // ung units nakadepend kung part time or full time 15 24
@@ -64,52 +60,57 @@ public class TASConstraintController {
         repo.save(tas);
     }
 
-    @PutMapping("")
-    public void updateTASConstraint(@RequestBody Map<String, Object> updates)
-    {
+    @PutMapping
+    public void updateTASConstraint(@RequestBody Map<String, Object> updates) {
         //repo.save(tasConstraint);
         // ang structure ng request body should be tas_id tapos kung ano lng iuupdate like
         // REQ BODY: {tas_id: 'PF12345678', name: 'Edited Name', units: 24} -- name and units lng ung ieedit
+        System.out.println("called");
+
+        if (updates.get("tasId") == null) {
+            throw new IllegalArgumentException("Missing tasId for update");
+        }
 
         // UPDATE teaching_academic_staff updatecolumn = updatedcolvalue WHERE tas_id = tas_id
-        boolean firstEntry = true;
-        String tas_id = "";
+        String tas_id = String.valueOf(updates.get("tasId"));
         String column = "";
         Object value = null;
 
         for (Map.Entry<String, Object> entry : updates.entrySet()) {
-            if (firstEntry) {
-                tas_id = entry.getValue().toString(); // First entry is tas_id
-                firstEntry = false;
-            } else {
-                column = entry.getKey(); // Next key as column
-                value = entry.getValue(); // Next value
-                System.out.println("tas_id: " + tas_id + ", column: " + column + ", value: " + value);
 
-                switch (column) {
-                    case "name":
-                        repo.updateName(tas_id, (String) value);
-                        break;
-                    case "units":
-                        repo.updateUnits(tas_id, (int) value);
-                        break;
-                    case "email":
-                        repo.updateEmail(tas_id, (String) value);
-                        break;
-                    case "courses":
-                        repo.updateCourses(tas_id, (String[]) value);
-                    case "restrictions":
-                        repo.updateRestrictions(tas_id, (Restrictions) value);
-                    default:
-                        throw new IllegalArgumentException("Invalid column name: " + column);
-                }
+            if (entry.getKey().equals("tasId")) {
+                continue;
             }
+
+            column = entry.getKey(); // Next key as column
+            value = entry.getValue(); // Next value
+            System.out.println("tas_id: " + tas_id + ", column: " + column + ", value: " + value);
+
+            switch (column) {
+                case "name":
+                    repo.updateName(tas_id, (String) value);
+                    break;
+                case "units":
+                    repo.updateUnits(tas_id, Integer.parseInt(String.valueOf(value)));
+                    break;
+                case "email":
+                    repo.updateEmail(tas_id, (String) value);
+                    break;
+                case "courses":
+                    repo.updateCourses(tas_id, (String[]) value);
+                    break;
+                case "restrictions":
+                    repo.updateRestrictions(tas_id, (Restrictions) value);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid column name: " + column);
+            }
+
         }
     }
 
     @DeleteMapping
-    public void deleteTASConstraint(@RequestBody Map<String, String> tas_id)
-    {
+    public void deleteTASConstraint(@RequestBody Map<String, String> tas_id) {
         //repo.delete(tasConstraint);
         // REQ BODY: {tas_id: 'PF12345678'}
         Map.Entry<String, String> entry = tas_id.entrySet().iterator().next();

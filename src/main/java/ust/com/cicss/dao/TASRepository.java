@@ -32,27 +32,27 @@ public interface TASRepository extends JpaRepository<TAS, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE backend.teaching_academic_staff SET name = ?2 WHERE tas_id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE teaching_academic_staff SET name = ?2 WHERE tas_id = ?1", nativeQuery = true)
     void updateName(String tas_id, String name);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE backend.teaching_academic_staff SET units = ?2 WHERE tas_id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE teaching_academic_staff SET units = ?2 WHERE tas_id = ?1", nativeQuery = true)
     void updateUnits(String tas_id, int units);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE backend.teaching_academic_staff SET email = ?2 WHERE tas_id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE teaching_academic_staff SET email = ?2 WHERE tas_id = ?1", nativeQuery = true)
     void updateEmail(String tas_id, String email);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE backend.teaching_academic_staff SET courses = ?2 WHERE tas_id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE teaching_academic_staff SET courses = ?2 WHERE tas_id = ?1", nativeQuery = true)
     void updateCourses(String tas_id, String[] courses);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE backend.teaching_academic_staff SET restrictions = ?2 WHERE tas_id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE teaching_academic_staff SET restrictions = ?2 WHERE tas_id = ?1", nativeQuery = true)
     void updateRestrictions(String tas_id, Restrictions restrictions);
 
 }
