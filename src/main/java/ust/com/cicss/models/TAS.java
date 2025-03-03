@@ -1,17 +1,20 @@
 
 package ust.com.cicss.models;
 
-import jakarta.annotation.Nonnull;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDateTime;
-import java.util.Map;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "teaching_academic_staff")
@@ -22,7 +25,7 @@ public class TAS {
     private String tasId;
 
     @Column(name = "units")
-    @Min(value = 15,message = "units field is incorrect")
+    // @Min(value = 15,message = "units field is incorrect") -- merong 9 lng
     private int units;
 
     @Column(name = "courses")
@@ -38,6 +41,11 @@ public class TAS {
     @NotNull(message = "The email field is null")
     @NotBlank(message = "the email field is empty")
     private String email;
+
+    @Column(name = "main_department")
+    @NotNull(message = "The main department field is null")
+    @NotBlank(message = "the main department field is empty")
+    private String mainDepartment;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "restrictions")
@@ -85,6 +93,10 @@ public class TAS {
         this.email = email;
     }
 
+    public void setMainDepartment(String mainDepartment){
+        this.mainDepartment = mainDepartment;
+    }
+
     public void setRestriction(Restrictions restrictions){
         this.restrictions = restrictions;
     }
@@ -119,6 +131,10 @@ public class TAS {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getMainDepartment() {
+        return mainDepartment;
     }
 
     public void setRestrictions(Restrictions restrictions) {

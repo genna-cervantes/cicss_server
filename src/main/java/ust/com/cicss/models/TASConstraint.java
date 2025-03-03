@@ -1,30 +1,24 @@
 
 package ust.com.cicss.models;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-
 public class TASConstraint {
 
     private String tasId;
     private String name;
     private int units;
     private String[] courses;
+    private String mainDepartment;
     private Restrictions restrictions;
 
     public TASConstraint() {
     }
 
-    public TASConstraint(String tasId, String name, int units, String[] courses, Restrictions restrictions) {
+    public TASConstraint(String tasId, String name, int units, String[] courses, String mainDepartment, Restrictions restrictions) {
         this.tasId = tasId;
         this.name = name;
         this.units = units;
         this.courses = courses;
+        this.mainDepartment = mainDepartment;
         this.restrictions = restrictions;
     }
 
@@ -38,6 +32,10 @@ public class TASConstraint {
 
     public String getName() {
         return name;
+    }
+
+    public String getMainDepartment() {
+        return mainDepartment;
     }
 
     public void setName(String name) {
@@ -58,6 +56,10 @@ public class TASConstraint {
 
     public void setCourses(String[] courses) {
         this.courses = courses;
+    }
+
+    public void setMainDepartment(String mainDepartment) {
+        this.mainDepartment = mainDepartment;
     }
 
     public Restrictions getRestrictions() {

@@ -40,6 +40,7 @@ public class TASConstraintController {
         return service.getAllTASConstraints();
     }
 
+    // no use case
     @GetMapping("/{TASConstraintId}")
     public TASConstraint getTASConstraintById(@PathVariable String tasId)
     {
@@ -54,6 +55,8 @@ public class TASConstraintController {
         // ung units nakadepend kung part time or full time 15 24
         // courses is a text array
         // REQ BODY: {tas_id: 'PF12345678', name: 'Edited Name', units: 24 .. EVERYTHING ELSE DAPAT LAHAT PRESENT paki error ung return if may missing value}
+        System.out.println(tas);
+
         String randomString = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         String tasId = "PF" + randomString;
         tas.setId(tasId);

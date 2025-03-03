@@ -65,6 +65,7 @@ public class TASService {
                     tas.getName(),
                     tas.getUnits(),
                     tas.getCourses(),
+                    tas.getMainDepartment(),
                     tas.getRestrictions()
             );
             // System.out.println("tas constraints");
@@ -85,6 +86,7 @@ public class TASService {
                 tas.getName(),
                 tas.getUnits(),
                 tas.getCourses(),
+                tas.getMainDepartment(),
                 tas.getRestrictions()
         );
         return tasConstraint;
