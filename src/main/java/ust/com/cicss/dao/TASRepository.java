@@ -1,5 +1,3 @@
-
-
 package ust.com.cicss.dao;
 
 import jakarta.transaction.Transactional;

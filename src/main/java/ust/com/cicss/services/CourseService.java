@@ -18,7 +18,7 @@ public class CourseService {
         List<Course> allGenEdCourses = repo.getAllGenEdCourses();
         List<GenEdConstraint> allGenEdConstraints = new ArrayList<>();
 
-        for(Course c: allGenEdCourses) {
+        for (Course c : allGenEdCourses) {
             GenEdConstraint gec = new GenEdConstraint(
                     c.getCourseCode(),
                     c.getCourseName(),
