@@ -51,4 +51,8 @@ public interface TASRepository extends JpaRepository<TAS, String> {
     @Query(value = "UPDATE backend.teaching_academic_staff SET restrictions = ?2 WHERE tas_id = ?1", nativeQuery = true)
     void updateRestrictions(String tas_id, Restrictions restrictions);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE backend.teaching_academic_staff SET is_active = 0 WHERE tas_id = ?1", nativeQuery = true)
+    void setInactive(String tas_id);
 }

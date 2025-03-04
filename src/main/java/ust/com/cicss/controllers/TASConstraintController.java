@@ -116,6 +116,6 @@ public class TASConstraintController {
         Map.Entry<String, String> entry = tas_id.entrySet().iterator().next();
         String value = entry.getValue();
         // UPDATE teaching_academic_staff is_active = 1 WHERE tas_id = tas_id
-        repo.deleteById(value);
+        repo.setInactive(value);
     }
 }

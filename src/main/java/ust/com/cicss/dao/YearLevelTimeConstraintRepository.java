@@ -31,4 +31,9 @@ public interface YearLevelTimeConstraintRepository extends JpaRepository<YearLev
     @Transactional
     @Query(value = "UPDATE backend.year_level_time_constraints SET department = ?2 WHERE year_level_time_constraint_id = ?1", nativeQuery = true)
     void updateDepartment(String id, String department);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE backend.year_level_time_constraints SET is_active = 0 WHERE year_level_time_constraint_id = ?1", nativeQuery = true)
+    void setInactive(String id);
 }

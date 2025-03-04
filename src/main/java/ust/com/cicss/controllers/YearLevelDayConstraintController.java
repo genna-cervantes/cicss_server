@@ -59,9 +59,11 @@ public class YearLevelDayConstraintController {
     }
 
     @DeleteMapping
-    public void deleteYearLevelDayConstraint(@RequestBody YearLevelDayConstraint yearLevelDayConstraint)
+    public void deleteYearLevelDayConstraint(@RequestBody Map<String, String> yldc_id)
     {
         // UPDATE year_day_restrictions SET is_active = 0 WHERE year_day_restriction_id = year_day_restriction_id
-        repo.delete(yearLevelDayConstraint);
+        Map.Entry<String, String> entry = yldc_id.entrySet().iterator().next();
+        String value = entry.getValue();
+        repo.setInactive(value);
     }
 }

@@ -82,9 +82,11 @@ public class YearLevelTimeConstraintController {
     }
 
     @DeleteMapping
-    public void deleteYearLevelTimeConstraint(@RequestBody YearLevelTimeConstraint yearLevelTimeConstraint)
+    public void deleteYearLevelTimeConstraint(@RequestBody Map<String, String> yltc_id)
     {
         // UPDATE year_time_restrictions SET is_active = 0 WHERE year_time_restriction_id = year_time_restriction_id
-        repo.delete(yearLevelTimeConstraint);
+        Map.Entry<String, String> entry = yltc_id.entrySet().iterator().next();
+        String value = entry.getValue();
+        repo.setInactive(value);
     }
 }

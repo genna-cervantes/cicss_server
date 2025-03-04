@@ -28,7 +28,10 @@ public interface YearLevelDayConstraintRepository extends JpaRepository<YearLeve
     @Query(value = "UPDATE backend.year_level_day_constraints SET max_days = ?2 WHERE year_level_day_constraint_id = ?1", nativeQuery = true)
     void updateMaxDays(String id, int value);
 
-
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE backend.year_level_day_constraints SET is_active = 0 WHERE year_level_day_constraint_id = ?1", nativeQuery = true)
+    void setInactive(String id);
 }
 
 
