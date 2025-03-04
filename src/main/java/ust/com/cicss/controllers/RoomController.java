@@ -1,39 +1,54 @@
 package ust.com.cicss.controllers;
 
-import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.persistence.Table;
 import ust.com.cicss.dao.RoomRepository;
 import ust.com.cicss.models.Room;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/room")
-@Table(name = "room")
+@RequestMapping("/rooms")
+@Table(name = "rooms")
 public class RoomController {
 
     @Autowired
     private RoomRepository repo;
 
 
-    @GetMapping
-    public List<Room> getAllRooms()
+    @GetMapping("/{department}")
+    public List<Room> getAllRooms(@PathVariable String department)
     {
-        return repo.findAll();
+        String[] roomIds = repo.getRoomIdsByDepartment(department);
+        ArrayList<Room> rooms = new ArrayList<>();
+        for (int i = 0; i < roomIds.length; i++){
+            Room room = repo.getRoomDetails(roomIds[i]);
+            rooms.add(room);
+        }
+
+        return rooms;
     }
 
-    @GetMapping("/{roomId}")
-    public ResponseEntity<Room> findRoom(@PathVariable String roomId) {
-        Room room = repo.getRoomDetails(roomId);
-        if (room == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        return ResponseEntity.ok(room);
-    }
+    // @GetMapping("/{roomId}")
+    // public ResponseEntity<Room> findRoom(@PathVariable String roomId) {
+    //     Room room = repo.getRoomDetails(roomId);
+    //     if (room == null) {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    //     }
+    //     return ResponseEntity.ok(room);
+    // }
 
     @PostMapping
     public void addRoom(@Validated @RequestBody Room room)
@@ -41,15 +56,58 @@ public class RoomController {
         repo.save(room);
     }
 
-    @PutMapping("/")
-    public void updateRoom(@RequestBody Room room)
+    @PutMapping
+    public void updateRoom(@RequestBody Map<String, Object> updates)
     {
-        repo.save(room);
+        if (updates.get("roomId") == null) {
+            throw new IllegalArgumentException("Missing roomId for update");
+        }
+
+        // UPDATE teaching_academic_staff updatecolumn = updatedcolvalue WHERE tas_id = tas_id
+        String room_id = String.valueOf(updates.get("roomId"));
+        String column = "";
+        Object value = null;
+
+        for (Map.Entry<String, Object> entry : updates.entrySet()) {
+
+            if (entry.getKey().equals("roomId")) {
+                continue;
+            }
+
+            column = entry.getKey(); // Next key as column
+            value = entry.getValue(); // Next value
+            System.out.println("tas_id: " + room_id + ", column: " + column + ", value: " + value);
+
+            switch (column) {
+                case "department":
+                    repo.updateDepartment(room_id, (String) value);
+                    break;
+                case "roomType":
+                    repo.updateType(room_id, (String) value);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid column name: " + column);
+            }
+
+        }
     }
 
-    @DeleteMapping("/{roomId}")
-    public void deleteRoom(@PathVariable String roomId)
-    {
-        repo.deleteById(roomId);
+    @DeleteMapping
+    public void deleteRoom(@RequestBody Map<String, String> room_id) {
+        //repo.delete(tasConstraint);
+        // REQ BODY: {tas_id: 'PF12345678'}
+        if (room_id == null || room_id.isEmpty()) {
+            throw new IllegalArgumentException("Missing roomId for delete");
+        }
+
+        Map.Entry<String, String> entry = room_id.entrySet().iterator().next();
+        String value = entry.getValue();
+
+        if (value == null) {
+            throw new IllegalArgumentException("Missing roomId for delete");
+        }
+
+        // UPDATE teaching_academic_staff is_active = 1 WHERE tas_id = tas_id
+        repo.deleteRoom(value);
     }
 }

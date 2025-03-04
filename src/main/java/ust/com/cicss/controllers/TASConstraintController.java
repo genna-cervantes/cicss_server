@@ -72,7 +72,6 @@ public class TASConstraintController {
         //repo.save(tasConstraint);
         // ang structure ng request body should be tas_id tapos kung ano lng iuupdate like
         // REQ BODY: {tas_id: 'PF12345678', name: 'Edited Name', units: 24} -- name and units lng ung ieedit
-        System.out.println("called");
 
         if (updates.get("tasId") == null) {
             throw new IllegalArgumentException("Missing tasId for update");
@@ -135,6 +134,6 @@ public class TASConstraintController {
         }
 
         // UPDATE teaching_academic_staff is_active = 1 WHERE tas_id = tas_id
-        repo.deleteById(value);
+        repo.deleteTAS(value);
     }
 }

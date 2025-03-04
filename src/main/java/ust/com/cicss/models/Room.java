@@ -1,20 +1,26 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+
 @Entity
-@Table(name = "room")
+@Table(name = "rooms")
 public class Room {
 
     @Id
     @Column(name="room_id")
-    private int roomId;
-    @Column(name = "department")
-    private String department;
-    @Column(name = "room_type")
+    private String roomId;
+    @Column(name = "main_department")
+    private String mainDepartment;
+    @Column(name = "type")
     private String roomType;
+    
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
@@ -24,9 +30,9 @@ public class Room {
 
     }
 
-    public Room(int roomId, String department, String roomType) {
+    public Room(String roomId, String mainDepartment, String roomType) {
         this.roomId = roomId;
-        this.department = department;
+        this.mainDepartment = mainDepartment;
         this.roomType = roomType;
     }
 
@@ -43,20 +49,20 @@ public class Room {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public int getRoomId() {
+    public String getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
 
     public String getDepartment() {
-        return department;
+        return mainDepartment;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setDepartment(String mainDepartment) {
+        this.mainDepartment = mainDepartment;
     }
 
     public String getRoomType() {

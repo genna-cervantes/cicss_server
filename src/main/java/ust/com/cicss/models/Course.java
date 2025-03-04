@@ -1,27 +1,35 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.UUID;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "courses")
 public class Course {
     @Id
-    @Column(name = "course_code")
-    @NotBlank(message = "the course code field is empty")
-    private String courseCode;
+    @Column(name = "course_id")
+    @NotBlank(message = "the course id field is empty")
+    private String courseId;
 
-    @Column(name = "course_name")
+    @Column(name = "subject_code")
+    @NotBlank(message = "the course code field is empty")
+    private String subjectCode;
+
+    @Column(name = "name")
     @NotBlank(message = "the course name field is empty")
-    private String courseName;
+    private String name;
 
     @Column(name = "units_per_class")
     @Min(value = 2, message = "units per class field is incorrect")
@@ -31,9 +39,9 @@ public class Course {
     @NotBlank(message = "the course type field is empty")
     private String courseType;
 
-    @Column(name = "course_category")
+    @Column(name = "category")
     @NotBlank(message = "the course category field is empty")
-    private String courseCategory;
+    private String category;
 
     @Column(name = "total_units")
     @Min(value = 2, message = "total units field is incorrect")
@@ -52,12 +60,19 @@ public class Course {
     public Course() {
     }
 
-    public Course(String courseCode, String courseName, int unitsPerClass, String courseType, String courseCategory, Restrictions restrictions, int totalUnits) {
-        this.courseCode = courseCode;
-        this.courseName = courseName;
+    public Course (String courseId, String name, String subjectCode, Restrictions restrictions){
+        this.courseId = courseId;
+        this.name = name;
+        this.subjectCode = subjectCode;
+        this.restrictions = restrictions;
+    }
+
+    public Course(String subjectCode, String name, int unitsPerClass, String courseType, String category, Restrictions restrictions, int totalUnits) {
+        this.subjectCode = subjectCode;
+        this.name = name;
         this.unitsPerClass = unitsPerClass;
         this.courseType = courseType;
-        this.courseCategory = courseCategory;
+        this.category = category;
         this.restrictions = restrictions;
         this.totalUnits = totalUnits;
     }
@@ -75,20 +90,24 @@ public class Course {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public String getCourseCode() {
-        return courseCode;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 
     public String getCourseName() {
-        return courseName;
+        return name;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setCourseName(String name) {
+        this.name = name;
     }
 
     public int getUnitsPerClass() {
@@ -103,16 +122,20 @@ public class Course {
         return courseType;
     }
 
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
     public void setCourseType(String courseType) {
         this.courseType = courseType;
     }
 
     public String getCourseCategory() {
-        return courseCategory;
+        return category;
     }
 
-    public void setCourseCategory(String courseCategory) {
-        this.courseCategory = courseCategory;
+    public void setCourseCategory(String category) {
+        this.category = category;
     }
 
     public Restrictions getRestrictions() {

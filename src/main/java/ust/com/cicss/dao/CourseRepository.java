@@ -1,24 +1,23 @@
 package ust.com.cicss.dao;
 
-import jakarta.transaction.Transactional;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ust.com.cicss.models.Course;
-import ust.com.cicss.models.GenEdConstraint;
-import ust.com.cicss.models.Restrictions;
 
-import java.util.List;
+import jakarta.transaction.Transactional;
+import ust.com.cicss.models.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, String> {
 
-    @Query(value = "SELECT course_id, course_name, course_code, restrictions FROM backend.courses WHERE course_category = 'gened';", nativeQuery = true)
+    @Query(value = "SELECT course_id, name, subject_code, restrictions FROM courses WHERE category = 'gened';", nativeQuery = true)
     List<Course> getAllGenEdCourses();
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE backend.courses SET restrictions = CAST(?1 AS jsonb) WHERE course_code = ?2", nativeQuery = true)
+    @Query(value = "UPDATE courses SET restrictions = CAST(?1 AS jsonb) WHERE subject_code = ?2", nativeQuery = true)
     void updateGenEdConstraint(String restrictions, String course_code);
 }
