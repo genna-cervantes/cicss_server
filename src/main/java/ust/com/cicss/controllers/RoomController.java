@@ -53,7 +53,7 @@ public class RoomController {
     @PostMapping
     public void addRoom(@Validated @RequestBody Room room)
     {
-        repo.save(room);
+        repo.addRoom(room.getRoomId(), room.getDepartment(), room.getRoomType());
     }
 
     @PutMapping

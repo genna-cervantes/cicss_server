@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import jakarta.transaction.Transactional;
 import ust.com.cicss.models.Course;
+import ust.com.cicss.models.Restrictions;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, String> {
@@ -19,6 +20,6 @@ public interface CourseRepository extends JpaRepository<Course, String> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE courses SET restrictions = CAST(?1 AS jsonb) WHERE subject_code = ?2", nativeQuery = true)
-    void updateGenEdConstraint(String restrictions, String course_code);
+    void updateGenEdConstraint(Restrictions restrictions, String course_code);
 }
 
