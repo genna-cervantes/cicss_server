@@ -1,10 +1,10 @@
-
 package ust.com.cicss.models;
 
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import ust.com.cicss.models.Restrictions;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

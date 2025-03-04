@@ -74,7 +74,6 @@ public class Course {
         this.courseType = courseType;
         this.category = category;
         this.restrictions = restrictions;
-        this.totalUnits = totalUnits;
     }
 
     @PrePersist
@@ -134,23 +133,11 @@ public class Course {
         return category;
     }
 
-    public void setCourseCategory(String category) {
-        this.category = category;
-    }
-
     public Restrictions getRestrictions() {
         return restrictions;
     }
 
     public void setRestrictions(Restrictions restrictions) {
         this.restrictions = restrictions;
-    }
-
-    public int getTotalUnits() {
-        return totalUnits;
-    }
-
-    public void setTotalUnits(int totalUnits) {
-        this.totalUnits = totalUnits;
     }
 }

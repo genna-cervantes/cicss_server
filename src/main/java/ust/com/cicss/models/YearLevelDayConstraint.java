@@ -1,3 +1,4 @@
+
 package ust.com.cicss.models;
 
 import jakarta.persistence.*;

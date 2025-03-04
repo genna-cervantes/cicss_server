@@ -21,3 +21,4 @@ public interface CourseRepository extends JpaRepository<Course, String> {
     @Query(value = "UPDATE courses SET restrictions = CAST(?1 AS jsonb) WHERE subject_code = ?2", nativeQuery = true)
     void updateGenEdConstraint(String restrictions, String course_code);
 }
+

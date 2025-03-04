@@ -1,4 +1,6 @@
+
 CREATE TABLE backend.courses (
+    course_id VARCHAR(10) PRIMARY KEY NOT NULL,
     course_code VARCHAR(10) NOT NULL,
     course_name VARCHAR(80) NOT NULL,
     units_per_class INTEGER NOT NULL,
@@ -15,11 +17,13 @@ CREATE TABLE backend.course_offerings (
     department VARCHAR(50) NOT NULL,
     year_level INTEGER NOT NULL,
     semester INTEGER NOT NULL,
+    year INTEGER NOT NULL,
     specialization VARCHAR(30) NOT NULL,
-    courses VARCHAR[] NOT NULL,
+    course_ids VARCHAR[] NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
 
 CREATE TABLE backend.department_chair (
     department_chair_id VARCHAR(10) PRIMARY KEY NOT NULL,

@@ -1,4 +1,3 @@
-
 package ust.com.cicss.models;
 
 public class TASConstraint {

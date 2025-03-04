@@ -31,6 +31,9 @@ public class CourseController {
     @PostMapping
     public void addCourse(@RequestBody Course course)
     {
+        String randomString = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        String courseId = "CR" + randomString;
+        course.setCourseId(courseId);
         repo.save(course);
     }
 

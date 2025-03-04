@@ -1,3 +1,4 @@
+
 package ust.com.cicss.controllers;
 
 import java.util.List;
@@ -33,37 +34,15 @@ public class GenEdConstraintController {
 
     //since update din yung delete tinanggal ko nalang yung delete
     @PutMapping("/{course_code}")
-    public void addGenEdConstraint(@RequestBody Restrictions restrictions, @PathVariable String course_code)
+    public void updateGenEdConstraint(@RequestBody Restrictions restrictions, @PathVariable String course_code)
     {
         // UPDATE courses SET restrictions = restrictions WHERE course_id = course_id_value
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String restrictionsJson = objectMapper.writeValueAsString(restrictions); // Convert to JSON String
-            System.out.println("Generated JSON: " + restrictionsJson);
-            repo.updateGenEdConstraint(restrictionsJson, course_code);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error converting restrictions to JSON", e);
-        }
+        repo.updateGenEdConstraint((Restrictions) restrictions, course_code);
     }
-    
-//    @PutMapping
-//    public void updateGenEdConstraint(@RequestBody GenEdConstraint genEdConstraint)
-//    {
-//        // UPDATE courses SET restrictions = restrictions WHERE course_id = course_id_value
-//        //repo.save(genEdConstraint);
-//    }
-    
+
 //    @DeleteMapping("/{course_code}")
 //    public void deleteGenEdConstraint(@RequestBody Restrictions restrictions, @PathVariable String course_code)
 //    {
 //        // UPDATE courses SET restrictions = restrictions WHERE course_id = course_id_value -- bali gagawing empty object pero basta nasa req body na yan
-//        try {
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            String restrictionsJson = objectMapper.writeValueAsString(restrictions); // Convert to JSON String
-//            System.out.println("Generated JSON: " + restrictionsJson);
-//            repo.updateGenEdConstraint(restrictionsJson, course_code);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException("Error converting restrictions to JSON", e);
-//        }
 //    }
 }

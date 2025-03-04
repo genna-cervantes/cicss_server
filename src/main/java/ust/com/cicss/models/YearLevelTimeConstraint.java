@@ -8,17 +8,23 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Entity
-@Table(name = "year_level_time_constraints")
+@Table(name = "yearLevel_time_constraints")
 public class YearLevelTimeConstraint {
     @Id
-    @Column(name = "year_level_time_constraint_id")
+    @Column(name = "yearLevel_time_constraint_id")
     private String yearLevelTimeConstraintId;
-    @Column(name = "department")
-    private String department;
+
     @Column(name = "restrictions")
     @JdbcTypeCode(SqlTypes.JSON)
-    private Map<Integer, TimeBlock> restrictions;
-    @Column(name = "created_at", updatable = false)
+    private Restrictions restrictions;
+
+    @Column(name = "yearLevel")
+    private int yearLevel;
+
+    @Column(name = "department")
+    private String department;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
@@ -26,10 +32,11 @@ public class YearLevelTimeConstraint {
     public YearLevelTimeConstraint() {
     }
 
-    public YearLevelTimeConstraint(String yearLevelTimeConstraintId, String department, Map<Integer, TimeBlock> restrictions) {
+    public YearLevelTimeConstraint(String yearLevelTimeConstraintId, Restrictions restrictions, int yearLevel, String department) {
         this.yearLevelTimeConstraintId = yearLevelTimeConstraintId;
-        this.department = department;
         this.restrictions = restrictions;
+        this.yearLevel = yearLevel;
+        this.department = department;
     }
 
     @PrePersist
@@ -53,19 +60,27 @@ public class YearLevelTimeConstraint {
         this.yearLevelTimeConstraintId = yearLevelTimeConstraintId;
     }
 
+    public Restrictions getRestrictions() {
+        return restrictions;
+    }
+
+    public void setRestrictions(Restrictions restrictions) {
+        this.restrictions = restrictions;
+    }
+
+    public int getyearLevel() {
+        return yearLevel;
+    }
+
+    public void setyearLevel(int yearLevel) {
+        this.yearLevel = yearLevel;
+    }
+
     public String getDepartment() {
         return department;
     }
 
     public void setDepartment(String department) {
         this.department = department;
-    }
-
-    public Map<Integer, TimeBlock> getRestrictions() {
-        return restrictions;
-    }
-
-    public void setRestrictions(Map<Integer, TimeBlock> restrictions) {
-        this.restrictions = restrictions;
     }
 }

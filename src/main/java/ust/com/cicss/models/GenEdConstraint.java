@@ -8,11 +8,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 public class GenEdConstraint {
-
-//    private String courseId;
     private String courseName;
     private String courseCode;
-    @Embedded
     private Restrictions restrictions;
 
     public GenEdConstraint() {

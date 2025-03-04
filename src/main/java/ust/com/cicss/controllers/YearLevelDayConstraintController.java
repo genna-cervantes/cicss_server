@@ -1,3 +1,4 @@
+
 package ust.com.cicss.controllers;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class YearLevelDayConstraintController {
         //return repo.findAll();
         return repo.getYLDC(department, year_level);
     }
-    
+
     @PostMapping
     public void addYearLevelDayConstraint(@RequestBody YearLevelDayConstraint yearLevelDayConstraint)
     {
@@ -56,11 +57,13 @@ public class YearLevelDayConstraintController {
                 throw new IllegalArgumentException("Invalid column name: " + column);
         }
     }
-    
+
     @DeleteMapping
-    public void deleteYearLevelDayConstraint(@RequestBody YearLevelDayConstraint yearLevelDayConstraint)
+    public void deleteYearLevelDayConstraint(@RequestBody Map<String, String> yldc_id)
     {
         // UPDATE year_day_restrictions SET is_active = 0 WHERE year_day_restriction_id = year_day_restriction_id
-        repo.delete(yearLevelDayConstraint);
+        Map.Entry<String, String> entry = yldc_id.entrySet().iterator().next();
+        String value = entry.getValue();
+        repo.setInactive(value);
     }
 }
