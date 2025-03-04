@@ -15,6 +15,9 @@ import java.util.UUID;
 @Table(name = "courses")
 public class Course {
     @Id
+    @Column(name = "course_id")
+    private String courseId;
+
     @Column(name = "course_code")
     @NotBlank(message = "the course code field is empty")
     private String courseCode;
@@ -52,14 +55,15 @@ public class Course {
     public Course() {
     }
 
-    public Course(String courseCode, String courseName, int unitsPerClass, String courseType, String courseCategory, Restrictions restrictions, int totalUnits) {
+    public Course(String courseId, String courseCode, String courseName, int unitsPerClass, String courseType, String courseCategory, int totalUnits, Restrictions restrictions) {
+        this.courseId = courseId;
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.unitsPerClass = unitsPerClass;
         this.courseType = courseType;
         this.courseCategory = courseCategory;
-        this.restrictions = restrictions;
         this.totalUnits = totalUnits;
+        this.restrictions = restrictions;
     }
 
     @PrePersist
@@ -73,6 +77,14 @@ public class Course {
     protected void onUpdate()
     {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getCourseCode() {
@@ -115,19 +127,19 @@ public class Course {
         this.courseCategory = courseCategory;
     }
 
-    public Restrictions getRestrictions() {
-        return restrictions;
-    }
-
-    public void setRestrictions(Restrictions restrictions) {
-        this.restrictions = restrictions;
-    }
-
     public int getTotalUnits() {
         return totalUnits;
     }
 
     public void setTotalUnits(int totalUnits) {
         this.totalUnits = totalUnits;
+    }
+
+    public Restrictions getRestrictions() {
+        return restrictions;
+    }
+
+    public void setRestrictions(Restrictions restrictions) {
+        this.restrictions = restrictions;
     }
 }

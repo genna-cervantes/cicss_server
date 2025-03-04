@@ -19,8 +19,10 @@ public class CourseOfferings {
     private int semester;
     @Column(name = "specialization")
     private String specialization;
+    @Column(name = "year")
+    private int year;
     @Column(name = "courses")
-    private List<String> courses;
+    private List<String> courseIds;
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
@@ -28,13 +30,14 @@ public class CourseOfferings {
     public CourseOfferings() {
     }
 
-    public CourseOfferings(String courseOfferingsId, String department, int yearLevel, int semester, String specialization, List<String> courses) {
+    public CourseOfferings(String courseOfferingsId, String department, int yearLevel, int semester, String specialization, int year, List<String> courseIds) {
         this.courseOfferingsId = courseOfferingsId;
         this.department = department;
         this.yearLevel = yearLevel;
         this.semester = semester;
         this.specialization = specialization;
-        this.courses = courses;
+        this.year = year;
+        this.courseIds = courseIds;
     }
 
     @PrePersist
@@ -90,11 +93,19 @@ public class CourseOfferings {
         this.specialization = specialization;
     }
 
-    public List<String> getCourses() {
-        return courses;
+    public int getYear() {
+        return year;
     }
 
-    public void setCourses(List<String> courses) {
-        this.courses = courses;
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public List<String> getCourseIds() {
+        return courseIds;
+    }
+
+    public void setCourseIds(List<String> courseIds) {
+        this.courseIds = courseIds;
     }
 }
