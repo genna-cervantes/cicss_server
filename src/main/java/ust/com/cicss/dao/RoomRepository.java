@@ -13,14 +13,15 @@ public interface RoomRepository extends JpaRepository<Room, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO rooms (room_id, main_department, type) VALUES (?1, ?2, ?3) "
+    @Query(value = "INSERT INTO backend.rooms (room_id, department, room_type) VALUES (?1, ?2, ?3) "
             + "ON CONFLICT (room_id) DO UPDATE SET is_active = true", nativeQuery = true)
     void addRoom(String roomId, String department, String type);
+    
 
     @Query("select r from Room r where r.roomId=?1")
     Room getRoomDetails(String roomId);
 
-    @Query(value = "SELECT room_id FROM rooms WHERE main_department=?1 AND is_active = true ORDER BY room_id", nativeQuery = true)
+    @Query(value = "SELECT room_id FROM backend.rooms WHERE department=?1 AND is_active = true ORDER BY room_id", nativeQuery = true)
     String[] getRoomIdsByDepartment(String department);
 
     @Modifying
