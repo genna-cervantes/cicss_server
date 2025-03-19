@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.Table;
 import ust.com.cicss.dao.YearSectionRepository;
 import ust.com.cicss.models.Section;
+import ust.com.cicss.models.YearSection;
 
 @RestController
 @RequestMapping("/year_sections")
@@ -24,6 +27,12 @@ public class YearSectionController {
 
     @Autowired
     private YearSectionRepository repo;
+
+    @GetMapping("/{mainDepartment}")
+    public YearSection getYearSections(@PathVariable String mainDepartment){
+        YearSection yearSections = repo.getYearSections(mainDepartment);
+        return yearSections;
+    }
 
     @PostMapping
     public void addYearSection(@RequestBody Map<String, Object> reqBody) throws JsonProcessingException  {

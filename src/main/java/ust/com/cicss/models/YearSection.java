@@ -22,13 +22,20 @@ public class YearSection {
     private String yearSectionId;
     @Column(name = "department")
     private String department;
-    @Column(name = "year_level")
-    private int yearLevel;
     @Column(name = "semester")
     private int semester;
-    @Column(name = "sections")
+    @Column(name = "first_year_sections")
     @JdbcTypeCode(SqlTypes.JSON)
-    private ArrayList<Section> sections;
+    private ArrayList<Section> firstYearSections;
+    @Column(name = "second_year_sections")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private ArrayList<Section> secondYearSections;
+    @Column(name = "third_year_sections")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private ArrayList<Section> thirdYearSections;
+    @Column(name = "fourth_year_sections")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private ArrayList<Section> fourthYearSections;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
@@ -37,12 +44,14 @@ public class YearSection {
     public YearSection() {
     }
 
-    public YearSection(String yearSectionId, String department, int yearLevel, int semester, ArrayList<Section> sections) {
+    public YearSection(String yearSectionId, String department, int semester, ArrayList<Section> firstYearSections, ArrayList<Section> secondYearSections, ArrayList<Section> thirdYearSections, ArrayList<Section> fourthYearSections) {
         this.yearSectionId = yearSectionId; 
         this.department = department;
-        this.yearLevel = yearLevel;
         this.semester = semester;
-        this.sections = sections;
+        this.firstYearSections = firstYearSections;
+        this.secondYearSections = secondYearSections;
+        this.thirdYearSections = thirdYearSections;
+        this.fourthYearSections = fourthYearSections;
     }
 
     @PrePersist
@@ -66,16 +75,21 @@ public class YearSection {
         this.department = department;   
     }
 
-    public void setYearLevel(int yearLevel){
-        this.yearLevel = yearLevel;
-    }
-
     public void setSemester(int semester){
         this.semester = semester;
     }
 
-    public void setSections(ArrayList<Section> sections){
-        this.sections = sections;
+    public void setFirstYearSections(ArrayList<Section> sections){
+        this.firstYearSections = sections;
+    }
+    public void setSecondYearSections(ArrayList<Section> sections){
+        this.secondYearSections = sections;
+    }
+    public void setThirdYearSections(ArrayList<Section> sections){
+        this.thirdYearSections = sections;
+    }
+    public void setFourthYearSections(ArrayList<Section> sections){
+        this.fourthYearSections = sections;
     }
 
     public String getId(){
@@ -86,16 +100,21 @@ public class YearSection {
         return department; 
     }
 
-    public int getYearLevel() {
-        return yearLevel;
-    }
-
     public int getSemester(){
         return semester;
     }
 
-    public ArrayList<Section> getSections(){
-        return sections;
+    public ArrayList<Section> getFirstYearSections(){
+        return firstYearSections;
+    }
+    public ArrayList<Section> getSecondYearSections(){
+        return secondYearSections;
+    }
+    public ArrayList<Section> getThirdYearSections(){
+        return thirdYearSections;
+    }
+    public ArrayList<Section> getFourthYearSections(){
+        return fourthYearSections;
     }
 
    
