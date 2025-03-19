@@ -59,6 +59,8 @@ public class YearSectionController {
 
         String randomString = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         String yearSectionId = "YS" + randomString;
+        repo.deletePreviousYearSections(department);
+        
         repo.insertYearSections(yearSectionId, department, semester, firstYearJson, secondYearJson, thirdYearJson, fourthYearJson);
         
         // repo.save(yearSection);
