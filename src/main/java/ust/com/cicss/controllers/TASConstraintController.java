@@ -45,6 +45,11 @@ public class TASConstraintController {
         return service.getAllTASConstraintsByDepartment(mainDepartment);
     }
 
+    @GetMapping("/details/{mainDepartment}")
+    public List<Map<String, String>> getAllTASDetailsByDepartment(@PathVariable String mainDepartment){
+        return service.getAllDetailsByDepartment(mainDepartment);
+    }
+
     // no use case
     // @GetMapping("/{TASConstraintId}")
     // public TASConstraint getTASConstraintById(@PathVariable String tasId) {

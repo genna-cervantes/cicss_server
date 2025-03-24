@@ -1,7 +1,9 @@
 package ust.com.cicss.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,30 +29,20 @@ public class TASService {
         return tasRepo.authByEmail(email);
     }
 
-//    public ArrayList<Object> getAllTASConstraints() {
-//        ArrayList<String> tasIds = tasRepo.getAllTASIds();
-//        ArrayList<Object> tasConstraints = new ArrayList<>();
-//        for (int i = 0; i < tasIds.size(); i++) {
-//            Object obj = new Object();
-//
-//            String name = tasRepo.findById(tasIds.get(i))
-//                    .map(TAS::getName)
-//                    .orElseThrow(() -> new RuntimeException("Name not found"));
-//
-//            int units = tasRepo.findById(tasIds.get(i))
-//                    .map(TAS::getUnits)
-//                    .orElseThrow(() -> new RuntimeException("Name not found"));
-//
-//            String[] courses = tasRepo.findById(tasIds.get(i))
-//                    .map(TAS::getCourses)
-//                    .orElseThrow(() -> new RuntimeException("Name not found"));
-//
-//            Restrictions restrictions = tasRepo.findById(tasIds.get(i))
-//                    .map(TAS::getRestrictions)
-//                    .orElseThrow(() -> new RuntimeException("Restrictions not found"));
-//        }
-//        return tasConstraints;
-//    }
+    public List<Map<String, String>> getAllDetailsByDepartment(String department){
+        List<String> tasIds = tasRepo.getAllTASIdsByDepartment(department);
+
+        List<Map<String, String>> tasDetails = new ArrayList<>();
+        for(String tasId: tasIds) {
+            String tasName = tasRepo.getTASNameFromId(tasId);
+            Map<String, String> details = new HashMap<>();
+            details.put(tasId, tasName);
+            tasDetails.add(details);
+        }
+        
+        return tasDetails;
+    }
+
 
     public List<TASConstraint> getAllTASConstraintsByDepartment(String department){
         List<String> tasIds = tasRepo.getAllTASIdsByDepartment(department);

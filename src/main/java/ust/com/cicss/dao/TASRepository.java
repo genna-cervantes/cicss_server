@@ -28,6 +28,9 @@ public interface TASRepository extends JpaRepository<TAS, String> {
     @Query(value = "SELECT name, units, courses, restrictions FROM teaching_academic_staff WHERE tas_id = ? AND is_active = true ORDER BY name", nativeQuery = true)
     Object getTASConstraintById(String TASId);
 
+    @Query(value = "SELECT name FROM teaching_academic_staff WHERE tas_id = ?1", nativeQuery = true)
+    String getTASNameFromId(String TASId);
+
     @Modifying
     @Transactional
     @Query(value = "UPDATE teaching_academic_staff SET name = ?2 WHERE tas_id = ?1 AND is_active = true", nativeQuery = true)

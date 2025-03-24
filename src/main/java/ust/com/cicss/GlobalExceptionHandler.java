@@ -17,13 +17,15 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
+        System.out.println(ex);
         return ResponseEntity.badRequest().body(errors);
     }
-
+    
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error", ex.getMessage());
+        System.out.println(ex);
         return ResponseEntity.badRequest().body(errorResponse);
     }
 }

@@ -1,6 +1,7 @@
 package ust.com.cicss.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -11,9 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "courses")
@@ -32,10 +31,9 @@ public class Course {
     private String name;
 
     @Column(name = "units_per_class")
-    @Min(value = 2, message = "units per class field is incorrect")
-    private int unitsPerClass;
+    private float unitsPerClass;
 
-    @Column(name = "course_type")
+    @Column(name = "type")
     @NotBlank(message = "the course type field is empty")
     private String courseType;
 
@@ -44,12 +42,10 @@ public class Course {
     private String category;
 
     @Column(name = "total_units")
-    @Min(value = 2, message = "total units field is incorrect")
     private int totalUnits;
 
     @Column(name = "restrictions")
     @JdbcTypeCode(SqlTypes.JSON)
-    @NotNull(message = "The restrictions field is null")
     private Restrictions restrictions;
 
     @Column(name = "created_at", updatable = false)
@@ -77,8 +73,10 @@ public class Course {
     }
 
     @PrePersist
-    protected void onCreate()
-    {
+    public void prePersist() {
+        if (this.restrictions == null) {
+            this.restrictions = new Restrictions(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()); 
+        }
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -105,16 +103,24 @@ public class Course {
         return name;
     }
 
-    public void setCourseName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public int getUnitsPerClass() {
+    public float getUnitsPerClass() {
         return unitsPerClass;
     }
 
-    public void setUnitsPerClass(int unitsPerClass) {
+    public void setUnitsPerClass(float unitsPerClass) {
         this.unitsPerClass = unitsPerClass;
+    }
+
+    public int getTotalUnits() {
+        return totalUnits;
+    }
+
+    public void setTotalUnits(int totalUnits){
+        this.totalUnits = totalUnits;
     }
 
     public String getCourseType() {
@@ -127,6 +133,10 @@ public class Course {
 
     public void setCourseType(String courseType) {
         this.courseType = courseType;
+    }
+
+    public void setCategory(String category){
+        this.category = category;
     }
 
     public String getCourseCategory() {

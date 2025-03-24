@@ -1,34 +1,39 @@
 package ust.com.cicss.dao;
 
+import java.util.List;
 
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ust.com.cicss.models.Course;
+
+import jakarta.transaction.Transactional;
 import ust.com.cicss.models.CourseDTO;
 import ust.com.cicss.models.CourseOfferings;
-
-import java.util.List;
 
 @Repository
 public interface CourseOfferingsRepository extends JpaRepository<CourseOfferings, String> {
 
-    @Query(value = "SELECT c.course_id, c.course_code, c.course_name, c.total_units, c.course_type " +
-            "FROM backend.courses c " +
-            "JOIN backend.course_offerings co " +
-            "ON c.course_id = ANY(co.course_ids) " +
-            "WHERE year = ?1 AND semester = ?2 AND department = ?3",
+    @Query(value = "SELECT c.course_id::TEXT AS courseId, "
+            + "c.subject_code AS courseCode, "
+            + "c.name AS courseName, "
+            + "c.total_units::INT AS totalUnits, "
+            + "c.type AS courseType "
+            + "FROM courses c "
+            + "JOIN curriculum co "
+            + "ON c.subject_code = ANY(co.courses) "
+            + "WHERE co.year = CAST(?1 AS INTEGER) "
+            + "AND co.semester = CAST(?2 AS INTEGER) "
+            + "AND co.department = ?3",
             nativeQuery = true)
     List<CourseDTO> getCourseOfferings(int year, int semester, String department);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE backend.course_offerings " +
-            "SET course_ids = ARRAY_APPEND(course_ids, ?5) " +
-            "WHERE year = ?1 AND semester = ?2 AND department = ?3 AND year_level = ?4", nativeQuery = true)
-    void updateCourseOfferings(int year, int semester, String department, int yearLevel, String courseId);
+    @Query(value = "UPDATE curriculum "
+            + "SET courses = ARRAY_APPEND(courses, ?4) "
+            + "WHERE year = ?1 AND semester = ?2 AND department = ?3", nativeQuery = true)
+    void updateCourseOfferings(int year, int semester, String department, String courseId);
 
     @Modifying
     @Transactional
