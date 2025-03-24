@@ -7,16 +7,18 @@ public class CourseDTO {
     private String courseName;
     private int totalUnits;
     private String courseType;
+    private String courseCategory;
 
     public CourseDTO() {
     }
 
-    public CourseDTO(String courseId, String courseCode, String courseName, int totalUnits, String courseType) {
+    public CourseDTO(String courseId, String courseCode, String courseName, int totalUnits, String courseType, String courseCategory) {
         this.courseId = courseId;
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.totalUnits = totalUnits;
         this.courseType = courseType;
+        this.courseCategory = courseCategory;
     }
 
     public String getCourseId() {
@@ -57,5 +59,13 @@ public class CourseDTO {
 
     public void setCourseType(String courseType) {
         this.courseType = courseType;
+    }
+
+    public String getCourseCategory() {
+        return courseCategory;
+    }
+
+    public void setCourseCategory(String courseCategory) {
+        this.courseCategory = courseCategory;
     }
 }
