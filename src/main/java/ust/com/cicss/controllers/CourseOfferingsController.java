@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ust.com.cicss.dao.CourseOfferingsRepository;
 import ust.com.cicss.dao.CourseRepository;
 import ust.com.cicss.models.Course;
@@ -46,10 +48,10 @@ public class CourseOfferingsController {
         String courseId = "CR" + randomString;
         course.setCourseId(courseId);
 
-        if (course.getTotalUnits() == 3) { 
+        if (course.getTotalUnits() == 3) {
             course.setUnitsPerClass(1.5f);
-        }else{
-            course.setUnitsPerClass(course.getTotalUnits());    
+        } else {
+            course.setUnitsPerClass(course.getTotalUnits());
         }
 
         // INSERT INTO courses (course_id, subject_code, units_per_class, type, category, restrictions, total_units, specific_room_assignment) VALUES (...ung values) -- nasa req body toh dapat lahat
@@ -57,45 +59,62 @@ public class CourseOfferingsController {
         // UPDATE curriculum
         // SET courses = ARRAY_APPEND(courses, $4)
         // WHERE year = $1 AND semester = $2 AND department = $3;
-        COrepo.updateCourseOfferings(year, semester, department, courseId);
+        COrepo.updateCourseOfferings(year, semester, department, course.getSubjectCode());
     }
 
     @PutMapping
     public void updateCourseOfferings(@RequestBody Map<String, Object> updates) {
-        // UPDATE courses SET updatecolumn = updatedcolvalue WHERE course_id = course_id_value
-        boolean firstEntry = true;
-        String courseOfferingsId = "";
-        String column = "";
-        Object value = "";
 
-        for(Map.Entry<String, Object> entry: updates.entrySet()) {
-            if(firstEntry) {
-                courseOfferingsId = entry.getValue().toString();
-                firstEntry = false;
-            }
-            else {
-                column = entry.getKey();
-                value = entry.getValue();
-
-                switch(column) {
-                    case "department":
-                        COrepo.updateDepartment(courseOfferingsId, (String) value);
-                        break;
-                    case "yearLevel":
-                        COrepo.updateYearLevel(courseOfferingsId, (int) value);
-                        break;
-                    case "semester":
-                        COrepo.updateSemester(courseOfferingsId, (int) value);
-                        break;
-                    case "specialization":
-                        COrepo.updateSpecialization(courseOfferingsId, (String) value);
-                    case "year":
-                        COrepo.updateYear(courseOfferingsId, (int) value);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Invalid column name: " + column);
-                }
-            }
+        if (updates.get("courseId") == null) {
+            throw new IllegalArgumentException("Missing courseId for update");
         }
+
+        // UPDATE teaching_academic_staff updatecolumn = updatedcolvalue WHERE tas_id = tas_id
+        String course_id = String.valueOf(updates.get("courseId"));
+        ObjectMapper mapper = new ObjectMapper();
+        String column = "";
+        Object value = null;
+
+        for (Map.Entry<String, Object> entry : updates.entrySet()) {
+
+            if (entry.getKey().equals("courseId")) {
+                continue;
+            }
+
+            column = entry.getKey(); // Next key as column
+            value = entry.getValue(); // Next value
+            System.out.println("tas_id: " + course_id + ", column: " + column + ", value: " + value);
+
+            switch (column) {
+                case "name":
+                    COrepo.updateName(course_id, value.toString());
+                    break;
+                case "courseCode":
+                    if (value instanceof Map) {
+                        Map<String, Object> valueMap = (Map<String, Object>) value;
+                        String previous = valueMap.get("previous").toString();
+                        String newCode = valueMap.get("new").toString();
+
+                        COrepo.updateCourseCodeCoursesTable(course_id, newCode);
+                        COrepo.updateCourseCodeCurriculumTable(course_id, previous, newCode);
+                    } else {
+                        throw new IllegalArgumentException("Invalid value for courseCode: Expected a map with 'previous' and 'new'.");
+                    }
+                    break;
+                case "totalUnits":
+                    COrepo.updateTotalUnits(course_id, (double) value);
+                    break;
+                case "courseType":
+                    COrepo.updateCourseType(course_id, value.toString());
+                    break;
+                case "courseCategory":
+                    COrepo.updateCourseCategory(course_id, value.toString());
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid column name: " + column);
+            }
+
+        }
+
     }
 }
