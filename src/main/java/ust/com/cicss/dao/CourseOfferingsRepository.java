@@ -36,13 +36,13 @@ public interface CourseOfferingsRepository extends JpaRepository<CourseOfferings
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE courses SET name = ?2 WHERE course_id = ?1;", nativeQuery = true)
-    void updateName(String id, String name);
+    @Query(value = "UPDATE courses SET name = ?2 WHERE subject_code = ?1;", nativeQuery = true)
+    void updateName(String courseCode, String name);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE courses SET subject_code = ?2 WHERE course_id = ?1;", nativeQuery = true)
-    void updateCourseCodeCoursesTable(String id, String courseCode);
+    @Query(value = "UPDATE courses SET subject_code = ?2 WHERE subject_code = ?1;", nativeQuery = true)
+    void updateCourseCodeCoursesTable(String prevCode, String newCode);
     
     @Modifying
     @Transactional
@@ -51,22 +51,22 @@ public interface CourseOfferingsRepository extends JpaRepository<CourseOfferings
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE courses SET total_units = ?2 WHERE course_id = ?1;", nativeQuery = true)
-    void updateTotalUnits(String id, double totalUnits);
+    @Query(value = "UPDATE courses SET total_units = ?2 WHERE subject_code = ?1;", nativeQuery = true)
+    void updateTotalUnits(String courseCode, double totalUnits);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE courses SET type = ?2 WHERE course_id = ?1;", nativeQuery = true)
-    void updateCourseType(String id, String type);
+    @Query(value = "UPDATE courses SET type = ?2 WHERE subject_code = ?1;", nativeQuery = true)
+    void updateCourseType(String courseCode, String type);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE courses SET category = ?2 WHERE course_id = ?1;", nativeQuery = true)
-    void updateCourseCategory(String id, String category);
+    @Query(value = "UPDATE courses SET category = ?2 WHERE subject_code = ?1;", nativeQuery = true)
+    void updateCourseCategory(String courseCode, String category);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE curriculum SET courses =  array_remove(subjects, ?1) WHERE department = ?1 AND year = ?2 AND semester = ?3;", nativeQuery = true)
+    @Query(value = "UPDATE curriculum SET courses = array_remove(courses, ?4) WHERE department = ?1 AND year = ?2 AND semester = ?3;", nativeQuery = true)
     void deleteCourseFromCurriculum(String department, double year, double semester, String courseCode);
 
 }

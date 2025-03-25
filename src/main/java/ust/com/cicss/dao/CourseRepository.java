@@ -24,8 +24,8 @@ public interface CourseRepository extends JpaRepository<Course, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE courses SET is_active = FALSE WHERE course_id = ?1", nativeQuery = true)
-    void deleteCourseFromCourseId(String courseId);
+    @Query(value = "UPDATE courses SET is_active = FALSE WHERE subject_code = ?1", nativeQuery = true)
+    void deleteCourseFromCourseCode(String courseCode);
 
 
 }

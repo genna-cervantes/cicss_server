@@ -70,12 +70,12 @@ public class CourseOfferingsController {
     @PutMapping("/{year}/{semester}/{department}")
     public void updateCourseOfferings(@RequestBody Map<String, Object> updates, @PathVariable double year, @PathVariable double semester, @PathVariable String department) {
 
-        if (updates.get("courseId") == null) {
-            throw new IllegalArgumentException("Missing courseId for update");
+        if (updates.get("courseCode") == null) {
+            throw new IllegalArgumentException("Missing courseCode for update");
         }
 
         // UPDATE teaching_academic_staff updatecolumn = updatedcolvalue WHERE tas_id = tas_id
-        String course_id = String.valueOf(updates.get("courseId"));
+        String courseCode = String.valueOf(updates.get("courseCode"));
         ObjectMapper mapper = new ObjectMapper();
         String column = "";
         Object value = null;
@@ -88,11 +88,11 @@ public class CourseOfferingsController {
 
             column = entry.getKey(); // Next key as column
             value = entry.getValue(); // Next value
-            System.out.println("tas_id: " + course_id + ", column: " + column + ", value: " + value);
+            System.out.println("course code: " + courseCode + ", column: " + column + ", value: " + value);
 
             switch (column) {
                 case "name":
-                    COrepo.updateName(course_id, value.toString());
+                    COrepo.updateName(courseCode, value.toString());
                     break;
                 case "courseCode":
                     if (value instanceof Map) {
@@ -100,7 +100,7 @@ public class CourseOfferingsController {
                         String previous = valueMap.get("previous").toString();
                         String newCode = valueMap.get("new").toString();
 
-                        COrepo.updateCourseCodeCoursesTable(course_id, newCode);
+                        COrepo.updateCourseCodeCoursesTable(previous, newCode);
                         COrepo.updateCourseCodeCurriculumTable(department, year, semester, previous, newCode); // ndi gumana
                     } else {
                         throw new IllegalArgumentException("Invalid value for courseCode: Expected a map with 'previous' and 'new'.");
@@ -108,13 +108,13 @@ public class CourseOfferingsController {
                     break;
                 case "totalUnits":
                     // check if icchange to 3 para machange ung units per class
-                    COrepo.updateTotalUnits(course_id, ((Integer) value).doubleValue());
+                    COrepo.updateTotalUnits(courseCode, ((Integer) value).doubleValue());
                     break;
                 case "courseType":
-                    COrepo.updateCourseType(course_id, value.toString());
+                    COrepo.updateCourseType(courseCode, value.toString());
                     break;
                 case "courseCategory":
-                    COrepo.updateCourseCategory(course_id, value.toString());
+                    COrepo.updateCourseCategory(courseCode, value.toString());
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid column name: " + column);
@@ -126,15 +126,16 @@ public class CourseOfferingsController {
 
     @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @DeleteMapping("/{year}/{semester}/{department}")
-    public void deleteCourseOffering(@RequestBody Map<String, String> courseDetails, @PathVariable int year, @PathVariable int semester, @PathVariable String department) {
+    public void deleteCourseOffering(@RequestBody Map<String, Object> courseDetails, @PathVariable int year, @PathVariable int semester, @PathVariable String department) {
         
-        String courseCode = courseDetails.get("courseCode");
+        System.out.println(courseDetails);
+        String courseCode = courseDetails.get("courseCode").toString();
 
         if (courseCode == null){
             throw new IllegalArgumentException("Missing course code");
         }
 
-        Crepo.deleteCourseFromCourseId(courseCode);
+        Crepo.deleteCourseFromCourseCode(courseCode);
 
         // UPDATE curriculum
         COrepo.deleteCourseFromCurriculum(department, year, semester, courseCode);
