@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ public class TASConstraintController {
     @Autowired
     private TASService service;
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @GetMapping
     public List<TASConstraint> getAllTASConstraints() {
         //return repo.findAll();
@@ -40,11 +42,13 @@ public class TASConstraintController {
         return service.getAllTASConstraints();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @GetMapping("/{mainDepartment}")
     public List<TASConstraint> getAllTASConstraintsByDepartment(@PathVariable String mainDepartment) {
         return service.getAllTASConstraintsByDepartment(mainDepartment);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @GetMapping("/details/{mainDepartment}")
     public List<Map<String, String>> getAllTASDetailsByDepartment(@PathVariable String mainDepartment){
         return service.getAllDetailsByDepartment(mainDepartment);
@@ -56,6 +60,7 @@ public class TASConstraintController {
     //     return service.getTASConstraintById(tasId);
     // }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @PostMapping
     public void addTASConstraint(@Valid @RequestBody TAS tas) {
         //repo.save(tasConstraint);
@@ -72,6 +77,7 @@ public class TASConstraintController {
         repo.save(tas);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @PutMapping
     public void updateTASConstraint(@RequestBody Map<String, Object> updates) {
         //repo.save(tasConstraint);
@@ -123,6 +129,7 @@ public class TASConstraintController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @DeleteMapping
     public void deleteTASConstraint(@RequestBody Map<String, String> tas_id) {
         //repo.delete(tasConstraint);

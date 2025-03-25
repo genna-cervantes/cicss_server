@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +32,7 @@ public class CourseOfferingsController {
     @Autowired
     private CourseRepository Crepo;
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @GetMapping("/{year}/{semester}/{department}")
     public List<CourseDTO> getCourseOfferings(@PathVariable(name = "year") int year, @PathVariable(name = "semester") int semester, @PathVariable(name = "department") String department) {
         // SELECT c.course_id, c.name, c.subject_code, c.total_units, c.type
@@ -40,6 +43,7 @@ public class CourseOfferingsController {
         return COrepo.getCourseOfferings(year, semester, department); //returns a list of courses based on year, semester, and department
     }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @PostMapping("/{year}/{semester}/{department}")
     public void addCourseToCourseOfferings(@RequestBody Course course, @PathVariable int year, @PathVariable int semester, @PathVariable String department) {
         // 2 ung queries na need gawin nito
@@ -62,6 +66,7 @@ public class CourseOfferingsController {
         COrepo.updateCourseOfferings(year, semester, department, course.getSubjectCode());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @PutMapping("/{year}/{semester}/{department}")
     public void updateCourseOfferings(@RequestBody Map<String, Object> updates, @PathVariable double year, @PathVariable double semester, @PathVariable String department) {
 
@@ -117,5 +122,21 @@ public class CourseOfferingsController {
 
         }
 
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
+    @DeleteMapping("/{year}/{semester}/{department}")
+    public void deleteCourseOffering(@RequestBody Map<String, String> courseDetails, @PathVariable int year, @PathVariable int semester, @PathVariable String department) {
+        
+        String courseCode = courseDetails.get("courseCode");
+
+        if (courseCode == null){
+            throw new IllegalArgumentException("Missing course code");
+        }
+
+        Crepo.deleteCourseFromCourseId(courseCode);
+
+        // UPDATE curriculum
+        COrepo.deleteCourseFromCurriculum(department, year, semester, courseCode);
     }
 }

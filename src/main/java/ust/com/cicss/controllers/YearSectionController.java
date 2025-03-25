@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,12 +29,14 @@ public class YearSectionController {
     @Autowired
     private YearSectionRepository repo;
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @GetMapping("/{mainDepartment}")
     public YearSection getYearSections(@PathVariable String mainDepartment){
         YearSection yearSections = repo.getYearSections(mainDepartment);
         return yearSections;
     }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @PostMapping
     public void addYearSection(@RequestBody Map<String, Object> reqBody) throws JsonProcessingException  {
 
