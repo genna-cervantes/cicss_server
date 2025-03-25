@@ -24,11 +24,6 @@ public class TASService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public boolean authByEmail(String email) {
-
-        return tasRepo.authByEmail(email);
-    }
-
     public List<Map<String, String>> getAllDetailsByDepartment(String department){
         List<String> tasIds = tasRepo.getAllTASIdsByDepartment(department);
 

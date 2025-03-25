@@ -5,12 +5,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import ust.com.cicss.models.DepartmentChair;
+import ust.com.cicss.models.DepartmentChairDetails;
 
 @Repository
 public interface DepartmentChairRepository extends JpaRepository<DepartmentChair, String> {
+
     @Query(
-        value = "SELECT COUNT(*) > 0 FROM department_chair WHERE email = ?1",
-        nativeQuery = true
+            value = "SELECT email, department_chair_name AS name FROM department_chair WHERE email = ?1",
+            nativeQuery = true
     )
-    boolean authByEmail(String email);
+    DepartmentChairDetails getDepartmentChairByEmail(String email);
 }

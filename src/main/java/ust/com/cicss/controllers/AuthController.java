@@ -1,0 +1,104 @@
+package ust.com.cicss.controllers;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import ust.com.cicss.dao.DepartmentChairRepository;
+import ust.com.cicss.dao.TASRepository;
+import ust.com.cicss.models.DepartmentChairDetails;
+import ust.com.cicss.models.TASDetails;
+import ust.com.cicss.utils.JwtUtil;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    @Autowired
+    private DepartmentChairRepository dcRepository;
+
+    @Autowired
+    private TASRepository tasRepository;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @GetMapping("/try")
+    public void tryNew(){
+        System.out.println("tye");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(Map<String, String> request) {
+        System.out.println("is this being called ???");
+        
+        if (request == null || !request.containsKey("email") || request.get("email") == null || request.get("email").trim().isEmpty()) {
+            System.out.println("dito nag rereturn");
+            return ResponseEntity.badRequest().body("Email is required");
+        }
+
+        String email = request.get("email");
+        System.out.println(email);
+
+        try {
+            DepartmentChairDetails departmentChair = dcRepository.getDepartmentChairByEmail(email);
+            if (departmentChair != null) {
+                String token = jwtUtil.generateToken(email);
+                Map<String, String> response = new HashMap<>();
+                response.put("token", token);
+                response.put("role", "Department Chair");
+                return ResponseEntity.ok(response);
+            }
+
+            TASDetails tas = tasRepository.getTasFromEmail(email);
+            if (tas != null) {
+                String token = jwtUtil.generateToken(email);
+                Map<String, String> response = new HashMap<>();
+                response.put("token", token);
+                response.put("role", "TAS");
+                return ResponseEntity.ok(response);
+            }
+
+            // Safe email parsing
+            String college = null;
+            try {
+                String[] emailParts = email.split("@");
+                if (emailParts.length > 0) {
+                    String[] usernameParts = emailParts[0].split("\\.");
+                    if (usernameParts.length > 0) {
+                        college = usernameParts[usernameParts.length - 1];
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Error parsing email: " + e.getMessage());
+            }
+
+            if ("cics".equals(college)) {
+                String token = jwtUtil.generateToken(email);
+                Map<String, String> response = new HashMap<>();
+                response.put("token", token);
+                response.put("role", "Student");
+                return ResponseEntity.ok(response);
+            }
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Authentication Failed");
+            response.put("details", "Invalid Credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+
+        } catch (Exception e) {
+            System.out.println("Unexpected error during authentication: " + e.getMessage());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Authentication Error");
+            response.put("details", "An unexpected error occurred");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+    }
+}

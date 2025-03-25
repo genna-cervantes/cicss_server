@@ -10,14 +10,15 @@ import org.springframework.stereotype.Repository;
 import jakarta.transaction.Transactional;
 import ust.com.cicss.models.Restrictions;
 import ust.com.cicss.models.TAS;
+import ust.com.cicss.models.TASDetails;
 
 @Repository
 public interface TASRepository extends JpaRepository<TAS, String> {
     @Query(
-            value = "SELECT COUNT(*) > 0 FROM teaching_academic_staff WHERE email = ?1",
+            value = "SELECT email, name FROM teaching_academic_staff WHERE email = ?1",
             nativeQuery = true
     )
-    boolean authByEmail(String email);
+    TASDetails getTasFromEmail(String email);
 
     @Query(value = "SELECT tas_id FROM teaching_academic_staff WHERE is_active = true;", nativeQuery = true)
     List<String> getAllTASIds();
