@@ -62,8 +62,8 @@ public class CourseOfferingsController {
         COrepo.updateCourseOfferings(year, semester, department, course.getSubjectCode());
     }
 
-    @PutMapping
-    public void updateCourseOfferings(@RequestBody Map<String, Object> updates) {
+    @PutMapping("/{year}/{semester}/{department}")
+    public void updateCourseOfferings(@RequestBody Map<String, Object> updates, @PathVariable double year, @PathVariable double semester, @PathVariable String department) {
 
         if (updates.get("courseId") == null) {
             throw new IllegalArgumentException("Missing courseId for update");
@@ -96,13 +96,14 @@ public class CourseOfferingsController {
                         String newCode = valueMap.get("new").toString();
 
                         COrepo.updateCourseCodeCoursesTable(course_id, newCode);
-                        COrepo.updateCourseCodeCurriculumTable(course_id, previous, newCode);
+                        COrepo.updateCourseCodeCurriculumTable(department, year, semester, previous, newCode); // ndi gumana
                     } else {
                         throw new IllegalArgumentException("Invalid value for courseCode: Expected a map with 'previous' and 'new'.");
                     }
                     break;
                 case "totalUnits":
-                    COrepo.updateTotalUnits(course_id, (double) value);
+                    // check if icchange to 3 para machange ung units per class
+                    COrepo.updateTotalUnits(course_id, ((Integer) value).doubleValue());
                     break;
                 case "courseType":
                     COrepo.updateCourseType(course_id, value.toString());

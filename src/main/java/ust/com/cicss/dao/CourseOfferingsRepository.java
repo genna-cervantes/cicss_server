@@ -31,9 +31,7 @@ public interface CourseOfferingsRepository extends JpaRepository<CourseOfferings
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE curriculum "
-            + "SET courses = ARRAY_APPEND(courses, ?4) "
-            + "WHERE year = ?1 AND semester = ?2 AND department = ?3", nativeQuery = true)
+    @Query(value = "UPDATE curriculum SET courses = ARRAY_APPEND(courses, ?4) WHERE year = ?1 AND semester = ?2 AND department = ?3", nativeQuery = true)
     void updateCourseOfferings(int year, int semester, String department, String courseCode);
 
     @Modifying
@@ -73,10 +71,8 @@ public interface CourseOfferingsRepository extends JpaRepository<CourseOfferings
     
     @Modifying
     @Transactional
-    @Query(value = "UPDATE curriculum"
-    + "SET courses = array_replace(courses, ?2, ?3)"
-    + "WHERE id = ?1;", nativeQuery = true)
-    void updateCourseCodeCurriculumTable(String id, String prevCourseCode, String newCourseCode);
+    @Query(value = "UPDATE curriculum SET courses = array_replace(courses, ?4, ?5) WHERE department = ?1 AND year = ?2 AND semester = ?3;", nativeQuery = true)
+    void updateCourseCodeCurriculumTable(String department, double year, double semester, String prevCourseCode, String newCourseCode);
 
     @Modifying
     @Transactional
