@@ -37,6 +37,14 @@ public class JwtUtil {
         return extractClaims(token).getSubject();
     }
 
+    public String extractRole(String token) {
+        String role = extractClaims(token)
+                .get("role", String.class);
+        System.out.println("Extracted Role from JWT: " + role); 
+        return role;
+    }
+    
+
     public boolean validateToken(String token, String email) {
         try {
             return extractEmail(token).equals(email) && !isTokenExpired(token);

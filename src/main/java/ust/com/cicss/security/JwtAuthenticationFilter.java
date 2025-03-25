@@ -1,10 +1,14 @@
 package ust.com.cicss.security;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,15 +40,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (token != null) {
                 String email = jwtUtil.extractEmail(token);
+                String role = jwtUtil.extractRole(token);
+
+                System.out.println("Extracted Role: " + role);
+                System.out.println("Extracted Email: " + email);    
 
                 // 2️⃣ Manually get UserDetailsService to avoid circular dependency
                 UserDetailsService userDetailsService = applicationContext.getBean(UserDetailsService.class);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
+                List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
+
                 // 3️⃣ Validate token and set authentication
                 if (jwtUtil.validateToken(token, email)) {
                     UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                            new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
 
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }

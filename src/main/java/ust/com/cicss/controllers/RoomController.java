@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ public class RoomController {
     @Autowired
     private RoomRepository repo;
 
-
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @GetMapping("/{department}")
     public List<Room> getAllRooms(@PathVariable String department)
     {
@@ -50,12 +52,14 @@ public class RoomController {
     //     return ResponseEntity.ok(room);
     // }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @PostMapping
     public void addRoom(@Validated @RequestBody Room room)
     {
         repo.addRoom(room.getRoomId(), room.getDepartment(), room.getRoomType());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @PutMapping
     public void updateRoom(@RequestBody Map<String, Object> updates)
     {
@@ -92,6 +96,7 @@ public class RoomController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
     @DeleteMapping
     public void deleteRoom(@RequestBody Map<String, String> room_id) {
         //repo.delete(tasConstraint);
