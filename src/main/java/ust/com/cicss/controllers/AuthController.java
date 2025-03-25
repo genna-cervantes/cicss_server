@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,21 +37,18 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(Map<String, String> request) {
-        System.out.println("is this being called ???");
+    public ResponseEntity<?> authenticateUser(@RequestBody Map<String, String> request) {
         
         if (request == null || !request.containsKey("email") || request.get("email") == null || request.get("email").trim().isEmpty()) {
-            System.out.println("dito nag rereturn");
             return ResponseEntity.badRequest().body("Email is required");
         }
 
         String email = request.get("email");
-        System.out.println(email);
 
         try {
             DepartmentChairDetails departmentChair = dcRepository.getDepartmentChairByEmail(email);
             if (departmentChair != null) {
-                String token = jwtUtil.generateToken(email);
+                String token = jwtUtil.generateToken(email, "Department_Chair");
                 Map<String, String> response = new HashMap<>();
                 response.put("token", token);
                 response.put("role", "Department Chair");
@@ -59,7 +57,7 @@ public class AuthController {
 
             TASDetails tas = tasRepository.getTasFromEmail(email);
             if (tas != null) {
-                String token = jwtUtil.generateToken(email);
+                String token = jwtUtil.generateToken(email, "TAS");
                 Map<String, String> response = new HashMap<>();
                 response.put("token", token);
                 response.put("role", "TAS");
@@ -81,7 +79,7 @@ public class AuthController {
             }
 
             if ("cics".equals(college)) {
-                String token = jwtUtil.generateToken(email);
+                String token = jwtUtil.generateToken(email, "Student");
                 Map<String, String> response = new HashMap<>();
                 response.put("token", token);
                 response.put("role", "Student");
