@@ -9,13 +9,17 @@ import org.springframework.stereotype.Repository;
 
 import jakarta.transaction.Transactional;
 import ust.com.cicss.models.Course;
+import ust.com.cicss.models.GenEdConstraint;
 import ust.com.cicss.models.Restrictions;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, String> {
 
-    @Query(value = "SELECT course_id, name, subject_code, restrictions FROM courses WHERE category = 'gened';", nativeQuery = true)
-    List<Course> getAllGenEdCourses();
+    @Query(value = "SELECT name AS courseName, subject_code AS courseCode, restrictions::json AS restrictions FROM courses WHERE category = 'gened';", nativeQuery = true)
+    List<GenEdConstraint> getAllGenEdCourseConstraints();
+
+    @Query(value = "SELECT course_id FROM courses WHERE category = 'gened';", nativeQuery = true)
+    List<String> getAllGendCourseIds();
 
     @Modifying
     @Transactional
