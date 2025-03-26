@@ -70,19 +70,19 @@ public class CourseOfferingsController {
     @PutMapping("/{year}/{semester}/{department}")
     public void updateCourseOfferings(@RequestBody Map<String, Object> updates, @PathVariable double year, @PathVariable double semester, @PathVariable String department) {
 
-        if (updates.get("courseCode") == null) {
+        if (updates.get("courseCodeKey") == null) {
             throw new IllegalArgumentException("Missing courseCode for update");
         }
 
         // UPDATE teaching_academic_staff updatecolumn = updatedcolvalue WHERE tas_id = tas_id
-        String courseCode = String.valueOf(updates.get("courseCode"));
+        String courseCode = String.valueOf(updates.get("courseCodeKey"));
         ObjectMapper mapper = new ObjectMapper();
         String column = "";
         Object value = null;
 
         for (Map.Entry<String, Object> entry : updates.entrySet()) {
 
-            if (entry.getKey().equals("courseId")) {
+            if (entry.getKey().equals("courseCodeKey")) {
                 continue;
             }
 
