@@ -1,12 +1,20 @@
 
 package ust.com.cicss.controllers;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ust.com.cicss.dao.YearLevelDayConstraintRepository;
 import ust.com.cicss.models.YearLevelDayConstraint;
@@ -37,25 +45,32 @@ public class YearLevelDayConstraintController {
         repo.save(yearLevelDayConstraint);
     }
 
-    @PutMapping("/{year_level_day_constraint_id}")
-    public void updateYearLevelDayConstraint(@PathVariable String year_level_day_constraint_id, @RequestBody Map<String, Object> update)
+    @PutMapping("/{department}/{year_level}")
+    public void updateYearLevelDayConstraint(@PathVariable String department, @PathVariable double year_level, @RequestBody Map<String, Object> updates)
     {
         // UPDATE year_day_restrictions SET updatecolumn = updatedcolvalue WHERE year_day_restriction_id = year_day_restriction_id
-        //repo.save(yldc);
-        Map.Entry<String, Object> entry = update.entrySet().iterator().next();
-        String column = entry.getKey();   // The column name to update
-        Object value = entry.getValue();
+        //repo.save(yldc)
+        String column = "";
+        Object value = null;
+        ObjectMapper mapper = new ObjectMapper();
 
-        switch (column) {
-            case "availableDays":
-                repo.updateAvailableDays(year_level_day_constraint_id, (String[]) value);
-                break;
-            case "maxDays":
-                repo.updateMaxDays(year_level_day_constraint_id, (int) value);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid column name: " + column);
+        for (Map.Entry<String, Object> entry : updates.entrySet()) {
+            column = entry.getKey(); // Next key as column
+            value = entry.getValue(); // Next value
+
+            switch (column) {
+                case "availableDays":
+                    String[] availableDays = mapper.convertValue(value, String[].class);
+                    repo.updateAvailableDays(department, year_level, (String[]) availableDays);
+                    break;
+                case "maxDays":
+                    repo.updateMaxDays(department, year_level, Integer.parseInt(value.toString()));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid column name: " + column);
+            }
         }
+
     }
 
     @DeleteMapping

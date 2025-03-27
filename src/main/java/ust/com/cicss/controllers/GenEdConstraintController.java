@@ -29,13 +29,9 @@ public class GenEdConstraintController {
     @GetMapping
     public List<GenEdConstraint> getAllGenEdConstraints()
     {
-        // SELECT c.course_id, c.name, c.subject_code, restrictions
-        // FROM courses c WHERE category = 'gened'
-//        return repo.findAll();
         return service.getAllGenEdConstraints();
     }
 
-    //since update din yung delete tinanggal ko nalang yung delete
     @PutMapping("/{course_code}")
     public void updateGenEdConstraint(@RequestBody Restrictions restrictions, @PathVariable String course_code)
     {
