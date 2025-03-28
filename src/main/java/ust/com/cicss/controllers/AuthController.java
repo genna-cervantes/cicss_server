@@ -52,15 +52,17 @@ public class AuthController {
                 Map<String, String> response = new HashMap<>();
                 response.put("token", token);
                 response.put("role", "Department Chair");
+                response.put("department", departmentChair.getDepartment());
                 return ResponseEntity.ok(response);
             }
-
+            
             TASDetails tas = tasRepository.getTasFromEmail(email);
             if (tas != null) {
                 String token = jwtUtil.generateToken(email, "TAS");
                 Map<String, String> response = new HashMap<>();
                 response.put("token", token);
                 response.put("role", "TAS");
+                response.put("department", tas.getDepartment());
                 return ResponseEntity.ok(response);
             }
 

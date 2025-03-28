@@ -1,11 +1,18 @@
 package ust.com.cicss.controllers;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ust.com.cicss.dao.YearLevelTimeConstraintRepository;
 import ust.com.cicss.models.Restrictions;
@@ -41,52 +48,29 @@ public class YearLevelTimeConstraintController {
         repo.save(yearLevelTimeConstraint);
     }
 
-    @PutMapping
-    public void updateYearLevelTimeConstraint(@RequestBody Map<String, Object> updates)
+    @PutMapping("/{department}/{year_level}")
+    public void updateYearLevelTimeConstraint(@PathVariable String department, @PathVariable int year_level, @RequestBody Map<String, Object> updates)
     {
         // UPDATE year_time_restrictions SET updatecolumn = updatedcolvalue WHERE year_time_restriction_id = year_time_restriction_id
         //repo.save(yearLevelTimeConstraint);
-        boolean firstEntry = true;
-        String yearLevelTimeConstraintId = "";
+        String column = "";
+        Object value = null;
+        ObjectMapper mapper = new ObjectMapper();
 
-        for(Map.Entry<String, Object> entry: updates.entrySet()) {
-            if(firstEntry) {
-                yearLevelTimeConstraintId = entry.getValue().toString();
-                firstEntry = false;
-            }
-            else {
-                String column = entry.getKey();
-                Object value = entry.getValue();
+        for (Map.Entry<String, Object> entry : updates.entrySet()) {
+            column = entry.getKey(); // Next key as column
+            value = entry.getValue(); // Next value
 
-                System.out.println("column: " + column);
-                System.out.println("value: " + value);
-
-                switch(column){
-                    case "restrictions":
-                        System.out.println("Entered restrictions");
-                        repo.updateRestrictions(yearLevelTimeConstraintId, (Restrictions) value);
-                        break;
-                    case "yearLevel":
-                        System.out.println("Entered year level");
-                        repo.updateYearLevel(yearLevelTimeConstraintId, (int) value);
-                        break;
-                    case "department":
-                        System.out.println("Entered department");
-                        repo.updateDepartment(yearLevelTimeConstraintId, (String) value);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Invalid column name: " + column);
-                }
+            switch (column) {
+                case "restrictions":
+                    Restrictions restrictions = mapper.convertValue(value, Restrictions.class);
+                    repo.updateRestrictions(department, year_level, restrictions);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid column name: " + column);
             }
         }
-    }
 
-    @DeleteMapping
-    public void deleteYearLevelTimeConstraint(@RequestBody Map<String, String> yltc_id)
-    {
-        // UPDATE year_time_restrictions SET is_active = 0 WHERE year_time_restriction_id = year_time_restriction_id
-        Map.Entry<String, String> entry = yltc_id.entrySet().iterator().next();
-        String value = entry.getValue();
-        repo.setInactive(value);
+        
     }
 }

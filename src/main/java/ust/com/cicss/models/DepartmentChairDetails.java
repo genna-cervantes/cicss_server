@@ -3,12 +3,14 @@ package ust.com.cicss.models;
 public class DepartmentChairDetails {
     private String name;
     private String email;
+    private String department;
 
     public DepartmentChairDetails(){}
 
-    public DepartmentChairDetails(String name, String email){
+    public DepartmentChairDetails(String name, String email, String department){
         this.email = email;
         this.name = name;
+        this.department = department;
     }
 
     public String getName(){
@@ -25,5 +27,13 @@ public class DepartmentChairDetails {
 
     public void setEmail(String email){
         this.email = email;
+    }
+
+    public String getDepartment(){
+        return this.department;
+    }
+
+    public void setDepartment(String department){
+        this.department = department;
     }
 }

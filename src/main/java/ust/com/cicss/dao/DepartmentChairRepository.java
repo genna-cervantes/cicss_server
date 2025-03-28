@@ -11,7 +11,7 @@ import ust.com.cicss.models.DepartmentChairDetails;
 public interface DepartmentChairRepository extends JpaRepository<DepartmentChair, String> {
 
     @Query(
-            value = "SELECT email, department_chair_name AS name FROM department_chair WHERE email = ?1",
+            value = "SELECT email, department_chair_name AS name, department FROM department_chair WHERE email = ?1",
             nativeQuery = true
     )
     DepartmentChairDetails getDepartmentChairByEmail(String email);

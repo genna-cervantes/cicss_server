@@ -1,24 +1,29 @@
 package ust.com.cicss.models;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDateTime;
-import java.util.Map;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "yearLevel_time_constraints")
 public class YearLevelTimeConstraint {
     @Id
-    @Column(name = "yearLevel_time_constraint_id")
+    @Column(name = "year_time_restrictions_id")
     private String yearLevelTimeConstraintId;
 
     @Column(name = "restrictions")
     @JdbcTypeCode(SqlTypes.JSON)
     private Restrictions restrictions;
 
-    @Column(name = "yearLevel")
+    @Column(name = "year")
     private int yearLevel;
 
     @Column(name = "department")
