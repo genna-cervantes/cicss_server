@@ -66,10 +66,24 @@ public class AuthController {
                 response.put("details", "An unexpected error occurred");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
-
+            
             String role = jwtUtil.extractRole(token);
+            String extractedRole = "";
+            if (role.equals("ROLE_Department_Chair")){
+                extractedRole = "Department Chair";
+            }else if (role.equals("ROLE_TAS")){
+                extractedRole = "TAS";
+            }else if (role.equals("ROLE_Student")){
+                extractedRole = "Student";
+            }else{
+                Map<String, String> response = new HashMap<>();
+                response.put("message", "Authentication Error");
+                response.put("details", "An unexpected error occurred");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+            
             Map<String, String> response = new HashMap<>();
-            response.put("role", role);
+            response.put("role", extractedRole);
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
