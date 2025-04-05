@@ -14,7 +14,7 @@ public interface RoomRepository extends JpaRepository<Room, String> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO rooms (room_id, main_department, type) VALUES (?1, ?2, ?3) "
-            + "ON CONFLICT (room_id) DO UPDATE SET is_active = true", nativeQuery = true)
+            + "ON CONFLICT (room_id) DO UPDATE SET room_id=?1, main_department=?2, type=?3,is_active = true", nativeQuery = true)
     void addRoom(String roomId, String department, String type);
 
     @Query("select r from Room r where r.roomId=?1")
