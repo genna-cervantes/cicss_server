@@ -59,7 +59,9 @@ public interface TASRepository extends JpaRepository<TAS, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE teaching_academic_staff SET is_active = false WHERE tas_id = ?1", nativeQuery = true)
-    void deleteTAS(String tas_id);
+    @Query(value = "UPDATE teaching_academic_staff SET is_active = ?2 WHERE tas_id = ?1", nativeQuery = true)
+    void updateIsActive(String tas_id, boolean is_active);
 
+    @Query(value = "DELETE FROM teaching_academic_staff WHERE tas_id = ?1", nativeQuery = true)
+    void deleteTAS(String tas_id);
 }
