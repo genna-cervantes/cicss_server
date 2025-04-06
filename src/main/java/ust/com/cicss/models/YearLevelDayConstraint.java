@@ -1,7 +1,10 @@
-
 package ust.com.cicss.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,18 +15,24 @@ public class YearLevelDayConstraint {
 
     @Id
     @Column(name = "year_level_day_constraint_id")
+    @NotBlank(message = "yearLevelConstraintId is empty")
     private String yearLevelDayConstraintId;
 
     @Column(name = "available_days")
+    @NotNull(message = "available_days is null")
+    @Size(min = 2)
     private String[] availableDays;
 
     @Column(name = "max_days")
+    @Min(value = 2)
     private int maxDays;
 
     @Column(name = "department")
+    @NotBlank(message = "department field is blank")
     private String department;
 
     @Column(name = "year_level")
+    @Min(value = 1)
     private int yearLevel;
 
     @Column(name = "created_at", updatable = false)
