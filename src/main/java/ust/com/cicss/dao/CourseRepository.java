@@ -18,7 +18,7 @@ public interface CourseRepository extends JpaRepository<Course, String> {
     @Query(value = "SELECT name AS courseName, subject_code AS courseCode, restrictions::json AS restrictions FROM courses WHERE category = 'gened';", nativeQuery = true)
     List<GenEdConstraint> getAllGenEdCourseConstraints();
 
-    @Query(value = "SELECT course_id FROM courses WHERE category = 'gened';", nativeQuery = true)
+    @Query(value = "SELECT course_id FROM courses WHERE category = 'gened' AND is_active = TRUE ORDER BY name;", nativeQuery = true)
     List<String> getAllGendCourseIds();
 
     @Modifying

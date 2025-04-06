@@ -23,7 +23,7 @@ public interface TASRepository extends JpaRepository<TAS, String> {
     @Query(value = "SELECT tas_id FROM teaching_academic_staff WHERE is_active = true;", nativeQuery = true)
     List<String> getAllTASIds();
 
-    @Query(value = "SELECT tas_id FROM teaching_academic_staff WHERE main_department = ? AND is_active = true", nativeQuery = true)
+    @Query(value = "SELECT tas_id FROM teaching_academic_staff WHERE main_department = ? AND is_active = true ORDER BY name", nativeQuery = true)
     List<String> getAllTASIdsByDepartment(String department);
 
     @Query(value = "SELECT name, units, courses, restrictions FROM teaching_academic_staff WHERE tas_id = ? AND is_active = true ORDER BY name", nativeQuery = true)

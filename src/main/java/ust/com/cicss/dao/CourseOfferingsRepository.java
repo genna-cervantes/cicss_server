@@ -25,7 +25,8 @@ public interface CourseOfferingsRepository extends JpaRepository<CourseOfferings
             + "ON c.subject_code = ANY(co.courses) "
             + "WHERE co.year = CAST(?1 AS INTEGER) "
             + "AND co.semester = CAST(?2 AS INTEGER) "
-            + "AND co.department = ?3",
+            + "AND co.department = ?3 "
+            + "ORDER BY courseName",
             nativeQuery = true)
     List<CourseDTO> getCourseOfferings(int year, int semester, String department);
 

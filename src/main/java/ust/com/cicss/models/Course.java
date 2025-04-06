@@ -42,7 +42,7 @@ public class Course {
     private String category;
 
     @Column(name = "total_units")
-    private int totalUnits;
+    private float totalUnits;
 
     @Column(name = "restrictions")
     @JdbcTypeCode(SqlTypes.JSON)
@@ -115,11 +115,11 @@ public class Course {
         this.unitsPerClass = unitsPerClass;
     }
 
-    public int getTotalUnits() {
+    public float getTotalUnits() {
         return totalUnits;
     }
 
-    public void setTotalUnits(int totalUnits){
+    public void setTotalUnits(float totalUnits){
         this.totalUnits = totalUnits;
     }
 

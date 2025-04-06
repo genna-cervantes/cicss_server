@@ -108,7 +108,7 @@ public class CourseOfferingsController {
                     break;
                 case "totalUnits":
                     // check if icchange to 3 para machange ung units per class
-                    COrepo.updateTotalUnits(courseCode, ((Integer) value).doubleValue());
+                    COrepo.updateTotalUnits(courseCode, (Float.parseFloat(value.toString())));
                     break;
                 case "courseType":
                     COrepo.updateCourseType(courseCode, value.toString());
