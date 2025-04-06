@@ -49,6 +49,7 @@ public class TASService {
             TASConstraint tasConstraint = new TASConstraint(
                     tasId,
                     tas.getName(),
+                    tas.getEmail(),
                     tas.getUnits(),
                     tas.getCourses(),
                     tas.getMainDepartment(),
@@ -71,6 +72,7 @@ public class TASService {
             TASConstraint tasConstraint = new TASConstraint(
                     tasId,
                     tas.getName(),
+                    tas.getEmail(),
                     tas.getUnits(),
                     tas.getCourses(),
                     tas.getMainDepartment(),
@@ -92,6 +94,7 @@ public class TASService {
         TASConstraint tasConstraint = new TASConstraint(
                 tasId,
                 tas.getName(),
+                tas.getEmail(),
                 tas.getUnits(),
                 tas.getCourses(),
                 tas.getMainDepartment(),

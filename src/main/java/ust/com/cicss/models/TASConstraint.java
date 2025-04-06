@@ -5,6 +5,7 @@ public class TASConstraint {
     private String tasId;
     private String name;
     private int units;
+    private String email;
     private String[] courses;
     private String mainDepartment;
     private Restrictions restrictions;
@@ -12,9 +13,10 @@ public class TASConstraint {
     public TASConstraint() {
     }
 
-    public TASConstraint(String tasId, String name, int units, String[] courses, String mainDepartment, Restrictions restrictions) {
+    public TASConstraint(String tasId, String name, String email, int units, String[] courses, String mainDepartment, Restrictions restrictions) {
         this.tasId = tasId;
         this.name = name;
+        this.email = email;
         this.units = units;
         this.courses = courses;
         this.mainDepartment = mainDepartment;
@@ -33,12 +35,20 @@ public class TASConstraint {
         return name;
     }
 
+    public String getEmail(){
+        return email;
+    }
+
     public String getMainDepartment() {
         return mainDepartment;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
     }
 
     public int getUnits() {
