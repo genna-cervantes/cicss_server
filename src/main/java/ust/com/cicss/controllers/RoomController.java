@@ -6,9 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +28,13 @@ public class RoomController {
     @Autowired
     private RoomRepository repo;
 
-    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair') or hasAuthority('ROLE_Student') or hasAuthority('ROLE_TAS')")
     @GetMapping("/{department}")
     public List<Room> getAllRooms(@PathVariable String department)
     {
+
+        System.out.println("This is hit rooms");
+
         String[] roomIds = repo.getRoomIdsByDepartment(department);
         ArrayList<Room> rooms = new ArrayList<>();
         for (int i = 0; i < roomIds.length; i++){

@@ -104,6 +104,9 @@ public class AuthController {
 
         String email = request.get("email");
 
+        System.out.println("email to verify");
+        System.out.println(email);
+
         try {
             DepartmentChairDetails departmentChair = dcRepository.getDepartmentChairByEmail(email);
             if (departmentChair != null) {
@@ -113,7 +116,7 @@ public class AuthController {
                 response.put("email", email);
                 response.put("role", "Department Chair");
                 response.put("department", departmentChair.getDepartment());
-                return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
             }
 
             TASDetails tas = tasRepository.getTasFromEmail(email);
@@ -142,9 +145,12 @@ public class AuthController {
             }
 
             if ("cics".equals(college)) {
+                System.out.println("student siya");
+
                 String token = jwtUtil.generateToken(email, "Student");
                 Map<String, String> response = new HashMap<>();
                 response.put("token", token);
+                response.put("email", email);
                 response.put("role", "Student");
                 return ResponseEntity.ok(response);
             }

@@ -15,7 +15,7 @@ import ust.com.cicss.models.TASDetails;
 @Repository
 public interface TASRepository extends JpaRepository<TAS, String> {
     @Query(
-            value = "SELECT email, name FROM teaching_academic_staff WHERE email = ?1",
+            value = "SELECT email, name, main_department AS department FROM teaching_academic_staff WHERE email = ?1",
             nativeQuery = true
     )
     TASDetails getTasFromEmail(String email);

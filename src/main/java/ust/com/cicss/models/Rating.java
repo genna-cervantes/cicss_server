@@ -1,21 +1,35 @@
 package ust.com.cicss.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ratings")
 public class Rating {
 
     @Id
+    @Column(name = "rating_id")
     private String ratingId;
+
+    @Column(name = "rating")
     private int rating;
+
+    @Column(name = "rater_name")
     private String raterName;
+
+    @Column(name = "rater_section")
     private String raterSection;
+
+    @Column(name = "rater_type")
     private String raterType;
+    
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
     @Column(name = "updated_at")

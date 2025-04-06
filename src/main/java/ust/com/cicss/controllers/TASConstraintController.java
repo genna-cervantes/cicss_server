@@ -48,7 +48,7 @@ public class TASConstraintController {
         return service.getAllTASConstraintsByDepartment(mainDepartment);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair') or hasAuthority('ROLE_Student') or hasAuthority('ROLE_TAS')")
     @GetMapping("/details/{mainDepartment}")
     public List<Map<String, String>> getAllTASDetailsByDepartment(@PathVariable String mainDepartment){
         return service.getAllDetailsByDepartment(mainDepartment);

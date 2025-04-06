@@ -29,9 +29,11 @@ public class YearSectionController {
     @Autowired
     private YearSectionRepository repo;
 
-    @PreAuthorize("hasAuthority('ROLE_Department_Chair')")
+    @PreAuthorize("hasAuthority('ROLE_Department_Chair') or hasAuthority('ROLE_Student') or hasAuthority('ROLE_TAS')")
     @GetMapping("/{mainDepartment}")
     public YearSection getYearSections(@PathVariable String mainDepartment){
+        System.out.println("this is hit");
+        
         YearSection yearSections = repo.getYearSections(mainDepartment);
         return yearSections;
     }
