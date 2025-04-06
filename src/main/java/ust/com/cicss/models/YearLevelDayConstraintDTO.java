@@ -4,14 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 
 public class YearLevelDayConstraintDTO {
-    @Id
-    @Column(name = "year_level_day_constraint_id")
+
     private String yearLevelDayConstraintId;
 
-    @Column(name = "available_days")
     private String[] availableDays;
 
-    @Column(name = "max_days")
     private int maxDays;
 
     public YearLevelDayConstraintDTO() {
