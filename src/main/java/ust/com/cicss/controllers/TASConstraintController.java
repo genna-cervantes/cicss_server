@@ -122,6 +122,8 @@ public class TASConstraintController {
                     Restrictions restrictions = mapper.convertValue(value, Restrictions.class);
                     repo.updateRestrictions(tas_id, restrictions);
                     break;
+                case "is_active":
+                    repo.updateIsActive(tas_id, (Boolean) value);
                 default:
                     throw new IllegalArgumentException("Invalid column name: " + column);
             }
@@ -146,6 +148,8 @@ public class TASConstraintController {
         }
 
         // UPDATE teaching_academic_staff is_active = 1 WHERE tas_id = tas_id
+
+        //tas value deleted by tas_id
         repo.deleteTAS(value);
     }
 }
