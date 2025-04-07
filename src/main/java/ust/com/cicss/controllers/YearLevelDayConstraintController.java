@@ -1,9 +1,9 @@
-
 package ust.com.cicss.controllers;
 
 import java.util.Map;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +35,7 @@ public class YearLevelDayConstraintController {
     }
 
     @PostMapping
-    public void addYearLevelDayConstraint(@RequestBody YearLevelDayConstraint yearLevelDayConstraint)
+    public void addYearLevelDayConstraint(@Valid @RequestBody YearLevelDayConstraint yearLevelDayConstraint)
     {
         // gawa ng custom id for 'YD' + 8 length string random
         String randomString = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
@@ -46,7 +46,7 @@ public class YearLevelDayConstraintController {
     }
 
     @PutMapping("/{department}/{year_level}")
-    public void updateYearLevelDayConstraint(@PathVariable String department, @PathVariable double year_level, @RequestBody Map<String, Object> updates)
+    public void updateYearLevelDayConstraint(@PathVariable String department, @PathVariable int year_level, @RequestBody Map<String, Object> updates)
     {
         // UPDATE year_day_restrictions SET updatecolumn = updatedcolvalue WHERE year_day_restriction_id = year_day_restriction_id
         //repo.save(yldc)
@@ -61,9 +61,19 @@ public class YearLevelDayConstraintController {
             switch (column) {
                 case "availableDays":
                     String[] availableDays = mapper.convertValue(value, String[].class);
+                    if(availableDays.length < 2) {
+                        System.out.println("Empty");
+                        break;
+                    }
+                    System.out.println("it did not break");
                     repo.updateAvailableDays(department, year_level, (String[]) availableDays);
                     break;
                 case "maxDays":
+                    if(Integer.parseInt(value.toString()) < 2) {
+                        System.out.println("Empty maxDays");
+                        break;
+                    }
+                    System.out.println("it did not break here");
                     repo.updateMaxDays(department, year_level, Integer.parseInt(value.toString()));
                     break;
                 default:
