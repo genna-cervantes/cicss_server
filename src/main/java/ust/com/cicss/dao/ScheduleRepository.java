@@ -57,4 +57,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     @Transactional
     @Query(value = "UPDATE backend.schedules SET is_deploy = ?2 WHERE schedule_id = ?1", nativeQuery = true)
     int updateISDeploy(String scheduleId, boolean isDeploy);
+
+    @Query(value = "SELECT class_schedule from schedules", nativeQuery = true)
+    String getSchedule();
 }
