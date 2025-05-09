@@ -1,5 +1,6 @@
 package ust.com.cicss.controllers;
 
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,12 @@ public class ExportScheduleController {
             response.setHeader("Expires", "0");
 
             // Write to the response output stream
-            try (FileOutputStream out = new FileOutputStream("schedule.xlsx")) {
+//            try (FileOutputStream out = new FileOutputStream("schedule.xlsx")) {
+//                wb.write(out);
+//            }
+            try (ServletOutputStream out = response.getOutputStream()) {
                 wb.write(out);
+                out.flush(); // Ensure all data is sent
             }
 
             // Close the workbook to free resources
