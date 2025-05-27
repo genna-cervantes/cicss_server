@@ -1,6 +1,9 @@
 package ust.com.cicss.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +31,38 @@ public class ProgramController {
         return programRepository.findAll();
     }
 
+    @GetMapping("/specializations/{department}")
+    public ResponseEntity<List<String>> getSpecializationsByDepartment(@PathVariable String department) {
+        System.out.println("this is getting called bro");
+
+        // Map department codes to full program names
+        String programName;
+        switch (department.toUpperCase()) {
+            case "CS":
+                programName = "Computer Science";
+                break;
+            case "IT":
+                programName = "Information Technology";
+                break;
+            case "IS":
+                programName = "Information Systems";
+                break;
+            default:
+                return ResponseEntity.badRequest().build(); // Invalid department code
+        }
+
+        List<Program> programs = programRepository.findAll();
+        for (Program program : programs) {
+            if (program.getProgramName().equalsIgnoreCase(programName)) {
+                System.out.println("this is getting called bro 2");
+                String[] specs = program.getSpecializations();
+                return ResponseEntity.ok(specs != null ? Arrays.asList(specs) : new ArrayList<>());
+            }
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Program> getProgramById(@PathVariable Long id) {
         return programRepository.findById(id)
@@ -37,7 +72,6 @@ public class ProgramController {
 
     @PostMapping
     public Program createProgram(@RequestBody Program program) {
-        System.out.println("got here");
         return programRepository.save(program);
     }
 
@@ -48,7 +82,7 @@ public class ProgramController {
             program.setNoYears(updatedProgram.getNoYears());
             program.setDcEmail(updatedProgram.getDcEmail());
             return ResponseEntity.ok(programRepository.save(program));
-        }).orElse(ResponseEntity.notFound().build());
+        }).orElse(ResponseEntity.<Program>notFound().build());
     }
 
     @DeleteMapping("/{id}")
@@ -61,4 +95,57 @@ public class ProgramController {
         }
     }
 
+    // Add a specialization to a program
+    // Add a specialization to a program - Fixed version
+    @PostMapping("/{id}/specializations")
+    public ResponseEntity<Program> addSpecialization(
+            @PathVariable Long id, @RequestBody String specialization) {
+
+        return programRepository.findById(id).map(program -> {
+            // Handle null specializations array
+            String[] currentSpecializations = program.getSpecializations();
+            List<String> specializations;
+
+            if (currentSpecializations == null) {
+                specializations = new ArrayList<>();
+            } else {
+                specializations = new ArrayList<>(Arrays.asList(currentSpecializations));
+            }
+
+            if (!specializations.contains(specialization)) {
+                specializations.add(specialization);
+                program.setSpecializations(specializations.toArray(new String[0]));
+                programRepository.save(program);
+                return ResponseEntity.ok(program);
+            } else {
+                return ResponseEntity.badRequest().body(program);
+            }
+        }).orElse(ResponseEntity.<Program>notFound().build());
+    }
+
+    // Delete a specialization from a program
+    @DeleteMapping("/{id}/specializations/{specialization}")
+    public ResponseEntity<Program> deleteSpecialization(
+            @PathVariable Long id, @PathVariable String specialization) {
+
+        // Use Optional explicitly to handle the response type correctly
+        Optional<Program> programOptional = programRepository.findById(id);
+
+        if (programOptional.isEmpty()) {
+            return ResponseEntity.<Program>notFound().build();
+        }
+
+        Program program = programOptional.get();
+        List<String> specializations = new ArrayList<>(Arrays.asList(program.getSpecializations()));
+
+        if (!specializations.contains(specialization)) {
+            return ResponseEntity.<Program>notFound().build();
+        }
+
+        specializations.remove(specialization);
+        program.setSpecializations(specializations.toArray(new String[0]));
+        Program savedProgram = programRepository.save(program);
+
+        return ResponseEntity.ok(savedProgram);
+    }
 }

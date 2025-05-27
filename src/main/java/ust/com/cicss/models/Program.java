@@ -24,6 +24,9 @@ public class Program {
     @Column(name = "dc_email", nullable = false)
     private String dcEmail;
 
+    @Column(name = "specializations", columnDefinition = "text[]") // PostgreSQL array column
+    private String[] specializations;
+
     // Getters and Setters
 
     public Long getId() {
@@ -56,5 +59,13 @@ public class Program {
 
     public void setDcEmail(String dcEmail) {
         this.dcEmail = dcEmail;
+    }
+
+    public String[] getSpecializations() {
+        return specializations;
+    }
+
+    public void setSpecializations(String[] specializations) {
+        this.specializations = specializations;
     }
 }
